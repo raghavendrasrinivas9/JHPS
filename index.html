@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jaya Hari Parayana Sangha</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-<script src="config.js"></script>
 
 <style>
   body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; font-family: sans-serif; }
@@ -26,7 +25,6 @@
   .custom-scroll::-webkit-scrollbar { width: 6px; }
   .custom-scroll::-webkit-scrollbar-thumb { background: #fb923c; border-radius: 10px; }
 
-  .admin-tab { background-color: #f1f5f9; border: 1px dashed #cbd5e1; margin-top: auto; color: #475569; }
   .motto-text { font-weight: 800; color: #7c2d12; text-transform: uppercase; letter-spacing: 0.05em; font-size: 1.1rem; }
 
   .img-card { 
@@ -39,9 +37,7 @@
     justify-content: center; 
     border: 4px solid #fff;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
   }
-  .img-card:hover { transform: translateY(-5px); }
   .gallery-img { max-height: 100%; max-width: 100%; object-fit: contain; }
 </style>
 </head>
@@ -67,10 +63,6 @@
     <div id="activitiesTab" class="tab-btn" onclick="switchTab('activities')">📅 Activities</div>
     <div id="aboutTab" class="tab-btn" onclick="switchTab('about')">ℹ️ About Us</div>
     <div id="contactTab" class="tab-btn" onclick="switchTab('contact')">📞 Contact</div>
-    
-    <div class="mt-auto pt-4">
-      <div id="adminTab" class="tab-btn admin-tab" onclick="switchTab('admin')">🔒 Admin Login</div>
-    </div>
   </aside>
 
   <main class="flex-1 p-6 flex flex-col overflow-hidden">
@@ -85,12 +77,12 @@
 <script>
 let activeTab = "parayana";
 let currentView = "info";
-let isAdmin = (sessionStorage.getItem("isLoggedIn") === "true");
 
 const WHATSAPP = "919686155558";
 const FORM = "https://docs.google.com/forms/d/1JZgvz4o701VtrCeTcyD5mb1Dl31DC_eAXagFk_2iUck/viewform";
 
-let contentData = JSON.parse(localStorage.getItem("contentData")) || {
+// Static Content
+const contentData = {
   parayana: ["Rayara Ashtottara", "Hari Vayu Stuti Purascharana", "Sundarakanda"],
   bhajana: ["Jaya Hari Bhajana Mandali"],
   trainings: ["Sandhya Vandana", "Sankshipta Deva Pooja", "Mantrabhyasa"],
@@ -100,7 +92,7 @@ let contentData = JSON.parse(localStorage.getItem("contentData")) || {
   contact: ["Jaya Hari Parayana Sangha", "Ph: 9686155558", "Email: jayahariparayanasangha@gmail.com"]
 };
 
-let gallery = JSON.parse(localStorage.getItem("gallery")) || {
+const gallery = {
   parayana: ["images/Parayana1.jpg", "images/Parayana2.jpg"],
   bhajana: ["images/Bhajana1.jpg", "images/Bhajana2.jpg"],
   trainings: ["images/Training1.jpg", "images/Training2.jpg", "images/Training3.jpg", "images/Training4.jpg"],
@@ -108,21 +100,9 @@ let gallery = JSON.parse(localStorage.getItem("gallery")) || {
   activities: ["images/Activities1.jpg", "images/Activities2.jpg"]
 };
 
-function handleLogin() {
-    const pwdInput = document.getElementById("adminPwd").value.trim();
-    if (typeof ADMIN_PASSWORD === 'undefined') { alert("config.js missing!"); return; }
-    if (pwdInput === ADMIN_PASSWORD) {
-        isAdmin = true;
-        sessionStorage.setItem("isLoggedIn", "true");
-        switchTab('parayana');
-    } else { alert("Incorrect Password"); }
-}
-
-function handleLogout() { isAdmin = false; sessionStorage.removeItem("isLoggedIn"); switchTab('parayana'); }
-
 function switchTab(tab){
   activeTab = tab;
-  ["parayana","bhajana","trainings","seva","activities","about","contact","admin"].forEach(t => {
+  ["parayana","bhajana","trainings","seva","activities","about","contact"].forEach(t => {
     const el = document.getElementById(t + "Tab");
     if(el) el.classList.remove("active-tab");
   });
@@ -139,24 +119,13 @@ function showView(view){
 
 function render(){
   let area = document.getElementById("contentArea");
-  if (activeTab === "admin") renderAdminPanel(area);
-  else if (currentView === "gallery") renderGallery(area);
+  if (currentView === "gallery") renderGallery(area);
   else renderInfo(area);
-}
-
-function renderAdminPanel(container) {
-  if (!isAdmin) {
-    container.innerHTML = `<div class="max-w-xs mx-auto mt-10 p-8 border rounded-2xl bg-yellow-50 text-center"><h2 class="text-xl font-bold mb-6">Admin Access</h2><input type="password" id="adminPwd" class="border-2 p-3 rounded-lg w-full mb-6 outline-none focus:border-orange-500" placeholder="Password"><button onclick="handleLogin()" class="bg-orange-600 text-white px-4 py-2 rounded-lg font-bold w-full">Submit</button></div>`;
-  } else {
-    container.innerHTML = `<div class="max-w-xs mx-auto mt-10 p-8 border rounded-2xl bg-green-50 text-center"><p class="text-green-800 font-bold mb-6">Admin Active</p><button onclick="handleLogout()" class="bg-red-500 text-white px-4 py-2 rounded-lg font-bold w-full">Logout</button></div>`;
-  }
 }
 
 function renderInfo(container){
   let data = contentData[activeTab] || [];
   let html = `<h2 class='text-2xl font-bold capitalize mb-6 text-orange-800 border-b-2 border-orange-100 pb-2'>${activeTab === 'about' ? 'About Us' : activeTab}</h2>`;
-  
-  if(isAdmin) html += `<div class='mb-6'><button onclick='addContent()' class='bg-blue-600 text-white px-3 py-1 rounded text-xs font-bold'>Update List</button></div>`;
   
   if(activeTab === 'about') {
     html += `<div class="text-gray-800 text-lg font-bold bg-yellow-50 p-6 rounded-2xl border border-yellow-100 shadow-sm">${data[0] || ""}</div>`;
@@ -166,7 +135,6 @@ function renderInfo(container){
     html += "</ul>";
   }
 
-  // REGISTRATION SECTION FOR PARAYANA
   if(activeTab === "parayana") {
     html += `
       <div class='mt-10 p-6 bg-yellow-100 border-l-4 border-yellow-500 rounded-r-xl shadow-sm text-center'>
@@ -177,49 +145,22 @@ function renderInfo(container){
         </div>
       </div>`;
   }
-  
   container.innerHTML = html;
 }
 
 function renderGallery(container){
   let html = `<h2 class='text-2xl font-bold mb-6 text-orange-800 border-b-2 border-orange-100 pb-2'>Gallery</h2>`;
-  if(isAdmin) html += `<input type="file" multiple onchange="uploadImages(event)" class="mb-6 text-xs block">`;
   html += "<div class='grid grid-cols-1 md:grid-cols-2 gap-8'>";
   const imgs = gallery[activeTab] || [];
-  imgs.forEach((img, index) => {
-    html += `<div class="img-card group relative">
-        <img src='${img}' class='gallery-img' onerror="this.src='https://via.placeholder.com/400x300?text=Check+Images+Folder'">
-        ${isAdmin ? `<button onclick='deleteImage(${index})' class='absolute top-2 right-2 bg-red-600 text-white w-8 h-8 rounded-full border-2 border-white shadow'>✕</button>` : ""}
+  imgs.forEach((img) => {
+    html += `<div class="img-card relative">
+        <img src='${img}' class='gallery-img' onerror="this.src='https://via.placeholder.com/400x300?text=Image+Loading...'">
     </div>`;
   });
-  if(imgs.length === 0) html += `<p class="text-gray-400 italic text-center py-20 w-full col-span-2">No photos uploaded yet.</p>`;
+  if(imgs.length === 0) html += `<p class="text-gray-400 italic text-center py-20 w-full col-span-2">No photos available yet.</p>`;
   html += "</div>";
   container.innerHTML = html;
 }
-
-function addContent(){
-  let current = contentData[activeTab].join("\n");
-  let updated = prompt("Update " + activeTab + " content (one per line):", current);
-  if(updated !== null){ contentData[activeTab] = updated.split("\n").filter(l => l.trim() !== ""); save(); }
-}
-
-function save(){ localStorage.setItem("contentData", JSON.stringify(contentData)); render(); }
-
-function uploadImages(event){
-  const files = Array.from(event.target.files);
-  files.forEach(file => {
-    const reader = new FileReader();
-    reader.onload = e => {
-      if(!gallery[activeTab]) gallery[activeTab] = [];
-      gallery[activeTab].push(e.target.result);
-      localStorage.setItem("gallery", JSON.stringify(gallery));
-      render();
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
-function deleteImage(index){ if(confirm("Delete photo?")){ gallery[activeTab].splice(index,1); save(); } }
 
 render();
 </script>
