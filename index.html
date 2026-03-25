@@ -17,9 +17,11 @@
   .top-btn { padding:6px 16px; border-radius:9999px; font-weight:bold; margin-right:8px; background-color: #fde68a; font-size: 0.85rem; color: #92400e; }
   .top-btn.active { background-color: #ea580c; color: white; }
   
-  .action-btn { display:inline-block; margin-top:8px; padding:8px 16px; border-radius:8px; color:white; font-weight:bold; text-decoration:none; font-size: 0.85rem; }
+  .action-btn { display:inline-block; margin-top:8px; padding:8px 20px; border-radius:8px; color:white; font-weight:bold; text-decoration:none; font-size: 0.9rem; transition: 0.3s; }
   .whatsapp { background-color: #16a34a; }
+  .whatsapp:hover { background-color: #15803d; }
   .form { background-color: #2563eb; }
+  .form:hover { background-color: #1d4ed8; }
 
   .custom-scroll::-webkit-scrollbar { width: 6px; }
   .custom-scroll::-webkit-scrollbar-thumb { background: #fb923c; border-radius: 10px; }
@@ -27,7 +29,6 @@
   .admin-tab { background-color: #f1f5f9; border: 1px dashed #cbd5e1; margin-top: auto; color: #475569; }
   .motto-text { font-weight: 800; color: #7c2d12; text-transform: uppercase; letter-spacing: 0.05em; font-size: 1.1rem; }
 
-  /* New Attractive Gallery Styles */
   .img-card { 
     height: 280px; 
     background: #fff; 
@@ -66,7 +67,10 @@
     <div id="activitiesTab" class="tab-btn" onclick="switchTab('activities')">📅 Activities</div>
     <div id="aboutTab" class="tab-btn" onclick="switchTab('about')">ℹ️ About Us</div>
     <div id="contactTab" class="tab-btn" onclick="switchTab('contact')">📞 Contact</div>
-   
+    
+    <div class="mt-auto pt-4">
+      <div id="adminTab" class="tab-btn admin-tab" onclick="switchTab('admin')">🔒 Admin Login</div>
+    </div>
   </aside>
 
   <main class="flex-1 p-6 flex flex-col overflow-hidden">
@@ -96,7 +100,6 @@ let contentData = JSON.parse(localStorage.getItem("contentData")) || {
   contact: ["Jaya Hari Parayana Sangha", "Ph: 9686155558", "Email: jayahariparayanasangha@gmail.com"]
 };
 
-// Updated paths to look inside the "images" folder
 let gallery = JSON.parse(localStorage.getItem("gallery")) || {
   parayana: ["images/Parayana1.jpg", "images/Parayana2.jpg"],
   bhajana: ["images/Bhajana1.jpg", "images/Bhajana2.jpg"],
@@ -152,7 +155,8 @@ function renderAdminPanel(container) {
 function renderInfo(container){
   let data = contentData[activeTab] || [];
   let html = `<h2 class='text-2xl font-bold capitalize mb-6 text-orange-800 border-b-2 border-orange-100 pb-2'>${activeTab === 'about' ? 'About Us' : activeTab}</h2>`;
-  if(isAdmin) html += `<div class='mb-6'><button onclick='addContent()' class='bg-blue-600 text-white px-3 py-1 rounded text-xs font-bold'>Update</button></div>`;
+  
+  if(isAdmin) html += `<div class='mb-6'><button onclick='addContent()' class='bg-blue-600 text-white px-3 py-1 rounded text-xs font-bold'>Update List</button></div>`;
   
   if(activeTab === 'about') {
     html += `<div class="text-gray-800 text-lg font-bold bg-yellow-50 p-6 rounded-2xl border border-yellow-100 shadow-sm">${data[0] || ""}</div>`;
@@ -161,6 +165,19 @@ function renderInfo(container){
     data.forEach(item => html += `<li class='bg-yellow-50 p-4 rounded-xl border text-lg font-bold shadow-sm'>✦ ${item}</li>`);
     html += "</ul>";
   }
+
+  // REGISTRATION SECTION FOR PARAYANA
+  if(activeTab === "parayana") {
+    html += `
+      <div class='mt-10 p-6 bg-yellow-100 border-l-4 border-yellow-500 rounded-r-xl shadow-sm text-center'>
+        <p class='font-bold text-orange-900 text-lg mb-4 italic underline'>Please contact us via WhatsApp to confirm slots before registering.</p>
+        <div class='flex flex-wrap justify-center gap-4'>
+          <a class='action-btn whatsapp shadow-md' href='https://wa.me/${WHATSAPP}' target='_blank'>WhatsApp Contact</a>
+          <a class='action-btn form shadow-md' href='${FORM}' target='_blank'>Register Online</a>
+        </div>
+      </div>`;
+  }
+  
   container.innerHTML = html;
 }
 
@@ -170,17 +187,19 @@ function renderGallery(container){
   html += "<div class='grid grid-cols-1 md:grid-cols-2 gap-8'>";
   const imgs = gallery[activeTab] || [];
   imgs.forEach((img, index) => {
-    html += `<div class="img-card group">
+    html += `<div class="img-card group relative">
         <img src='${img}' class='gallery-img' onerror="this.src='https://via.placeholder.com/400x300?text=Check+Images+Folder'">
         ${isAdmin ? `<button onclick='deleteImage(${index})' class='absolute top-2 right-2 bg-red-600 text-white w-8 h-8 rounded-full border-2 border-white shadow'>✕</button>` : ""}
     </div>`;
   });
+  if(imgs.length === 0) html += `<p class="text-gray-400 italic text-center py-20 w-full col-span-2">No photos uploaded yet.</p>`;
+  html += "</div>";
   container.innerHTML = html;
 }
 
 function addContent(){
   let current = contentData[activeTab].join("\n");
-  let updated = prompt("Update content:", current);
+  let updated = prompt("Update " + activeTab + " content (one per line):", current);
   if(updated !== null){ contentData[activeTab] = updated.split("\n").filter(l => l.trim() !== ""); save(); }
 }
 
@@ -200,7 +219,7 @@ function uploadImages(event){
   });
 }
 
-function deleteImage(index){ if(confirm("Delete?")){ gallery[activeTab].splice(index,1); render(); } }
+function deleteImage(index){ if(confirm("Delete photo?")){ gallery[activeTab].splice(index,1); save(); } }
 
 render();
 </script>
