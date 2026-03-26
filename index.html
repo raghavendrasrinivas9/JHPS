@@ -20,7 +20,7 @@
   .active-tab { background-color: #ea580c !important; color: white !important; border-color: #9a3412; }
   
   /* Top Navigation Buttons */
-  .top-btn { padding:6px 16px; border-radius:9999px; font-weight:bold; margin-right:8px; background-color: #fde68a; font-size: 0.85rem; color: #92400e; }
+  .top-btn { padding:6px 16px; border-radius:9999px; font-weight:bold; margin-right:8px; background-color: #fde68a; font-size: 0.85rem; color: #92400e; transition: 0.3s; }
   .top-btn.active { background-color: #ea580c; color: white; }
 
   /* Stotra Sub-Tabs */
@@ -49,7 +49,7 @@
   .call-btn { background-color: #fff7ed; color: #9a3412; padding: 2px 8px; border-radius: 6px; border: 1px solid #ffedd5; font-size: 0.65rem; font-weight: bold; transition: 0.2s; }
   
   /* Stotra Content Styling */
-  .stotra-content { font-family: 'Sanskrit', 'Noto Sans Devanagari', serif; background: #fffcf0; padding: 15px; border-radius: 10px; border: 1px dashed #d97706; }
+  .stotra-content { font-family: 'Sanskrit', 'Noto Sans Devanagari', 'Noto Sans Telugu', serif; background: #fffcf0; padding: 15px; border-radius: 10px; border: 1px dashed #d97706; }
 
   /* Floating Top Button */
   #scrollToTopBtn {
@@ -167,6 +167,7 @@ function scrollToContentTop() {
 
 function switchTab(tab){
   activeTab = tab;
+  currentView = "info"; // Reset to default view when switching tabs
   ["parayana","stotras","bhajana","trainings","seva","activities","about","contact"].forEach(t => {
     const el = document.getElementById(t + "Tab");
     if(el) el.classList.remove("active-tab");
@@ -194,8 +195,28 @@ function parseText(text) {
 
 function render(){
   let area = document.getElementById("contentArea");
-  if (currentView === "gallery") renderGallery(area);
-  else renderInfo(area);
+  let infoBtn = document.getElementById("infoBtn");
+  let galleryBtn = document.getElementById("galleryBtn");
+
+  // Dynamic Label Renaming for Stotras Tab
+  if (activeTab === "stotras") {
+    infoBtn.innerText = "Telugu";
+    galleryBtn.innerText = "Kannada";
+  } else {
+    infoBtn.innerText = "Details";
+    galleryBtn.innerText = "Gallery";
+  }
+
+  // View Routing
+  if (currentView === "gallery") {
+    if (activeTab === "stotras") {
+      renderKannadaStotra(area);
+    } else {
+      renderGallery(area);
+    }
+  } else {
+    renderInfo(area);
+  }
 }
 
 function renderInfo(container){
@@ -284,6 +305,20 @@ function renderGallery(container){
   });
   if(imgs.length === 0) html += `<p class="text-gray-400 italic text-center py-20 w-full col-span-full">No photos available yet.</p>`;
   html += "</div>";
+  container.innerHTML = html;
+}
+
+function renderKannadaStotra(container) {
+  let html = `<h2 class='text-xl md:text-2xl font-bold mb-4 text-orange-800 border-b-2 border-orange-100 pb-2'>Kannada Version</h2>`;
+  html += `
+    <div class="flex gap-2 mb-4 overflow-x-auto pb-2 custom-scroll">
+        <button class="sub-tab-btn ${activeStotra === 'rayara' ? 'active' : ''}" onclick="activeStotra='rayara'; render(); scrollToContentTop();">Rayara Ashtottara</button>
+        <button class="sub-tab-btn ${activeStotra === 'vayu' ? 'active' : ''}" onclick="activeStotra='vayu'; render(); scrollToContentTop();">Hari Vayu Stuti</button>
+        <button class="sub-tab-btn ${activeStotra === 'sundara' ? 'active' : ''}" onclick="activeStotra='sundara'; render(); scrollToContentTop();">Sundarakanda</button>
+    </div>
+    <div class="stotra-content flex items-center justify-center py-20 text-gray-400 italic">
+        Kannada version coming soon...
+    </div>`;
   container.innerHTML = html;
 }
 
