@@ -100,49 +100,20 @@ const contentData = {
   about: ["Nurturing Dharma Through Practice."],
   contact: [
     "Jaya Hari Parayana Sangha", 
-    "Ph: 9686155558", 
     "Email: jayahariparayanasangha@gmail.com",
+    "HEADER|Area Contacts",
+    "CONTACT|Kondapur|Pavan Ashrit|9686155558",
+    "CONTACT|Kondapur|Srikanth Joshi|9573313511",
+    "CONTACT|Nallagandla|Raghavendra Srinivas|9908577555",
+    "CONTACT|Miyapur|Contact for Details|9686155558", // Placeholder if no specific name provided
+    "CONTACT|BHEL|Contact for Details|9686155558",    // Placeholder
+    "HEADER|Social Media",
     "LINK|Instagram|https://www.instagram.com/jayahariparayanasangha/|fa-brands fa-instagram",
     "LINK|Youtube|https://www.youtube.com/@JayaHariParayanaSangha|fa-brands fa-youtube"
   ]
 };
 
-const gallery = {
-  parayana: ["images/Parayana1.jpg", "images/Parayana2.jpg"],
-  bhajana: ["images/Bhajana1.jpg", "images/Bhajana2.jpg"],
-  trainings: ["images/Training1.jpg", "images/Training2.jpg", "images/Training3.jpg", "images/Training4.jpg"],
-  seva: ["images/Seva1.jpg", "images/Seva2.jpg"],
-  activities: ["images/Activities1.jpg", "images/Activities2.jpg"]
-};
-
-function switchTab(tab){
-  activeTab = tab;
-  ["parayana","bhajana","trainings","seva","activities","about","contact"].forEach(t => {
-    const el = document.getElementById(t + "Tab");
-    if(el) el.classList.remove("active-tab");
-  });
-  document.getElementById(tab + "Tab").classList.add("active-tab");
-  document.getElementById(tab + "Tab").scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-  render();
-}
-
-function showView(view){
-  currentView = view;
-  document.getElementById("infoBtn").classList.toggle("active", view === "info");
-  document.getElementById("galleryBtn").classList.toggle("active", view === "gallery");
-  render();
-}
-
-function render(){
-  let area = document.getElementById("contentArea");
-  if (currentView === "gallery") renderGallery(area);
-  else renderInfo(area);
-}
-
-function parseText(text) {
-  return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-}
-
+// Updated renderInfo to handle the new contact box layout
 function renderInfo(container){
   let data = contentData[activeTab] || [];
   let title = activeTab.charAt(0).toUpperCase() + activeTab.slice(1);
@@ -151,25 +122,42 @@ function renderInfo(container){
   if(activeTab === 'about') {
     html += `<div class="text-gray-800 text-base md:text-lg font-bold bg-yellow-50 p-4 md:p-6 rounded-2xl border border-yellow-100 shadow-sm">${parseText(data[0] || "")}</div>`;
   } else {
-    html += "<ul class='space-y-3'>";
+    html += "<div class='flex flex-col gap-3'>";
     data.forEach(item => {
-      if(item.startsWith("LINK|")) {
+      if(item.startsWith("HEADER|")) {
+        html += `<h3 class='text-lg font-bold text-orange-700 mt-4 mb-1'>${item.split("|")[1]}</h3>`;
+      } 
+      else if(item.startsWith("CONTACT|")) {
+        const [_, area, name, phone] = item.split("|");
+        html += `
+          <div class='bg-orange-50 p-3 md:p-4 rounded-xl border border-orange-200 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2'>
+            <div>
+              <span class='text-xs font-bold uppercase text-orange-600 block'>${area}</span>
+              <span class='text-base md:text-lg font-bold text-gray-800'>${name}</span>
+            </div>
+            <a href="tel:${phone}" class="bg-white text-orange-700 px-4 py-1 rounded-full border border-orange-300 font-bold flex items-center gap-2 text-sm hover:bg-orange-600 hover:text-white transition">
+              <i class="fa-solid fa-phone"></i> ${phone}
+            </a>
+          </div>`;
+      }
+      else if(item.startsWith("LINK|")) {
         const [_, label, url, icon] = item.split("|");
         html += `
-          <li class="pt-2">
+          <div class="pt-1">
             <a href="${url}" target="_blank" class="action-btn ${label.toLowerCase()} shadow-md w-full sm:w-auto flex items-center justify-center gap-2">
               <i class="${icon} text-xl"></i> Follow on ${label}
             </a>
-          </li>`;
+          </div>`;
       } else if(item.startsWith("-")) {
-        html += `<li class='ml-6 md:ml-10 text-sm md:text-base text-gray-700 bg-orange-50 p-2 md:p-3 rounded-lg border border-orange-100 italic'>○ ${parseText(item.substring(1).trim())}</li>`;
+        html += `<div class='ml-6 md:ml-10 text-sm md:text-base text-gray-700 bg-orange-50 p-2 md:p-3 rounded-lg border border-orange-100 italic'>○ ${parseText(item.substring(1).trim())}</div>`;
       } else {
-        html += `<li class='bg-yellow-50 p-3 md:p-4 rounded-xl border text-base md:text-lg font-bold shadow-sm'>✦ ${parseText(item)}</li>`;
+        html += `<div class='bg-yellow-50 p-3 md:p-4 rounded-xl border text-base md:text-lg font-bold shadow-sm'>✦ ${parseText(item)}</div>`;
       }
     });
-    html += "</ul>";
+    html += "</div>";
   }
 
+  // Persistent registration box for Parayana tab
   if(activeTab === "parayana") {
     html += `
       <div class='mt-8 p-4 md:p-6 bg-yellow-100 border-l-4 border-yellow-500 rounded-r-xl shadow-sm text-center'>
