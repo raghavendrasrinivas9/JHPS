@@ -9,19 +9,25 @@
 
 <style>
   body { display: flex; flex-direction: column; font-family: sans-serif; min-height: 100vh; background-color: #fffbeb; }
-  @media (min-width: 768px) { body { height: 100vh; overflow: hidden; } }
   
+  @media (min-width: 768px) {
+    body { height: 100vh; overflow: hidden; }
+  }
+  
+  /* Sidebar Tabs */
   .tab-btn { padding:10px; border-radius:12px; cursor:pointer; font-weight:600; background-color: #fde68a; transition: 0.2s; font-size: 0.85rem; border: 1px solid transparent; color: #92400e; white-space: nowrap; }
   .tab-btn:hover { background-color: #fb923c; color: white; }
   .active-tab { background-color: #ea580c !important; color: white !important; border-color: #9a3412; }
   
+  /* Top Navigation Buttons */
   .top-btn { padding:6px 16px; border-radius:9999px; font-weight:bold; margin-right:8px; background-color: #fde68a; font-size: 0.85rem; color: #92400e; }
   .top-btn.active { background-color: #ea580c; color: white; }
 
-  /* Sub-tab styling for Stotras */
-  .sub-tab-btn { padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; font-weight: bold; background-color: #fef3c7; border: 1px solid #fcd34d; color: #92400e; transition: 0.2s; }
+  /* Stotra Sub-Tabs */
+  .sub-tab-btn { padding: 6px 12px; border-radius: 8px; cursor: pointer; font-size: 0.75rem; font-weight: bold; background-color: #fef3c7; border: 1px solid #fcd34d; color: #92400e; transition: 0.2s; white-space: nowrap; }
   .sub-tab-btn.active { background-color: #d97706; color: white; border-color: #92400e; }
   
+  /* Action Buttons */
   .action-btn { display:inline-block; margin-top:8px; padding:8px 20px; border-radius:8px; color:white; font-weight:bold; text-decoration:none; font-size: 0.9rem; transition: 0.3s; text-align: center; }
   .whatsapp { background-color: #16a34a; }
   .form { background-color: #2563eb; }
@@ -34,16 +40,40 @@
   .motto-text { font-weight: 800; color: #7c2d12; text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.65rem; line-height: 1.2; }
   @media (min-width: 768px) { .motto-text { font-size: 1.1rem; } }
 
-  .area-grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 12px; width: 100%; }
+  /* Contact Boxes */
+  .area-grid { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 10px; width: 100%; }
   @media (min-width: 640px) { .area-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-
-  .area-box { background: #fff; border: 1px solid #fed7aa; border-radius: 10px; padding: 12px; border-left: 4px solid #ea580c; display: flex; flex-direction: column; }
-  .contact-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 0; border-bottom: 1px solid #fff7ed; }
+  .area-box { background: #fff; border: 1px solid #fed7aa; border-radius: 10px; padding: 10px; border-left: 3px solid #ea580c; }
+  .contact-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 0; border-bottom: 1px solid #fff7ed; }
   .contact-row:last-child { border-bottom: none; }
-
-  .call-btn { background-color: #fff7ed; color: #9a3412; padding: 4px 10px; border-radius: 6px; border: 1px solid #ffedd5; font-size: 0.7rem; font-weight: bold; }
+  .call-btn { background-color: #fff7ed; color: #9a3412; padding: 2px 8px; border-radius: 6px; border: 1px solid #ffedd5; font-size: 0.65rem; font-weight: bold; transition: 0.2s; }
   
-  .stotra-content { font-family: 'Sanskrit', serif; line-height: 1.8; color: #431407; background: #fffcf0; padding: 20px; border-radius: 12px; border: 1px dashed #d97706; }
+  /* Stotra Content Styling */
+  .stotra-content { font-family: 'Sanskrit', 'Noto Sans Devanagari', serif; background: #fffcf0; padding: 15px; border-radius: 10px; border: 1px dashed #d97706; }
+
+  /* Floating Top Button */
+  #scrollToTopBtn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background-color: #ea580c;
+    color: white;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: none; 
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    cursor: pointer;
+    z-index: 1000;
+    transition: 0.3s;
+    border: 2px solid white;
+  }
+  #scrollToTopBtn:hover { background-color: #9a3412; transform: translateY(-3px); }
+
+  .img-card { height: 250px; background: #fff; border-radius: 1rem; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 4px solid #fff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+  .gallery-img { max-height: 100%; max-width: 100%; object-fit: contain; }
 </style>
 </head>
 
@@ -52,7 +82,7 @@
 <header class="bg-yellow-100 p-2 md:p-3 shadow-sm shrink-0 border-b border-yellow-200">
   <div class="max-w-6xl mx-auto flex justify-between items-center">
     <div class="w-1/4 md:w-1/3 flex items-center justify-start gap-1 md:gap-3">
-      <img src="images/Ram.jpg" alt="Ram" class="h-10 w-10 md:h-20 md:w-20 rounded-full border-2 border-orange-400 object-cover shadow-sm">
+      <img src="images/Ram.jpg" alt="Ram" class="h-10 w-10 md:h-20 md:w-20 rounded-full border-2 border-orange-400 object-cover shadow-sm shrink-0">
       <span class="motto-text">Hari <br class="md:hidden">Sarvothama</span>
     </div>
     <div class="w-2/4 md:w-1/3 flex justify-center">
@@ -60,7 +90,7 @@
     </div>
     <div class="w-1/4 md:w-1/3 flex items-center justify-end gap-1 md:gap-3 text-right">
       <span class="motto-text">Vayu <br class="md:hidden">Jeevothama</span>
-      <img src="images/Hanuman.jpg" alt="Hanuman" class="h-10 w-10 md:h-20 md:w-20 rounded-full border-2 border-orange-400 object-cover shadow-sm">
+      <img src="images/Hanuman.jpg" alt="Hanuman" class="h-10 w-10 md:h-20 md:w-20 rounded-full border-2 border-orange-400 object-cover shadow-sm shrink-0">
     </div>
   </div>
 </header>
@@ -83,9 +113,15 @@
       <button id="galleryBtn" class="top-btn" onclick="showView('gallery')">Gallery</button>
     </div>
     <div id="contentArea" class="bg-white p-4 md:p-6 rounded-2xl shadow-md border border-yellow-100 flex-1 overflow-y-auto custom-scroll">
-    </div>
+      </div>
   </main>
 </div>
+
+<div id="scrollToTopBtn" onclick="scrollToContentTop()">
+  <i class="fa-solid fa-arrow-up"></i>
+</div>
+
+<script src="stotras.js"></script>
 
 <script>
 let activeTab = "parayana";
@@ -95,24 +131,39 @@ let activeStotra = "rayara";
 const WHATSAPP = "919686155558";
 const FORM = "https://docs.google.com/forms/d/1JZgvz4o701VtrCeTcyD5mb1Dl31DC_eAXagFk_2iUck/viewform";
 
-const stotraData = {
-    rayara: "Text for Rayara Ashtottara will be placed here...",
-    vayu: "Text for Hari Vayu Stuti Purascharana will be placed here...",
-    sundara: "Text for Sundarakanda will be placed here..."
-};
-
+// Content Data
 const contentData = {
-  parayana: [
-    { name: "Rayara Ashtottara", action: () => switchStotra('rayara') },
-    { name: "Hari Vayu Stuti Purascharana", action: () => switchStotra('vayu') },
-    { name: "Sundarakanda", action: () => switchStotra('sundara') }
-  ],
   bhajana: ["Jaya Hari Bhajana Mandali"],
   trainings: ["Sandhya Vandana", "Sankshipta Deva Pooja", "Mantrabhyasa"],
   seva: ["Annadhana"],
-  activities: ["Weekly Events", "- **Every Thursday at 7:30 AM: Rayara Ashtottara at Bhagyanagara Krishna Matha, Kondapur**"],
+  activities: [
+    "Weekly Events",
+    "- **Every Thursday at 7:30 AM: Rayara Ashtottara at Bhagyanagara Krishna Matha, Kondapur**"
+  ],
   about: ["Nurturing Dharma Through Practice."]
 };
+
+const gallery = {
+  parayana: ["images/Parayana1.jpg", "images/Parayana2.jpg"],
+  bhajana: ["images/Bhajana1.jpg", "images/Bhajana2.jpg"],
+  trainings: ["images/Training1.jpg", "images/Training2.jpg"],
+  seva: ["images/Seva1.jpg", "images/Seva2.jpg"],
+  activities: ["images/Activities1.jpg"]
+};
+
+// Scroll Listener for "Top" Button
+document.getElementById('contentArea').addEventListener('scroll', function() {
+  const btn = document.getElementById('scrollToTopBtn');
+  if (this.scrollTop > 300) {
+    btn.style.display = "flex";
+  } else {
+    btn.style.display = "none";
+  }
+});
+
+function scrollToContentTop() {
+  document.getElementById('contentArea').scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 function switchTab(tab){
   activeTab = tab;
@@ -125,10 +176,9 @@ function switchTab(tab){
   render();
 }
 
-function switchStotra(stotraKey) {
-    activeTab = "stotras";
-    activeStotra = stotraKey;
-    switchTab("stotras");
+function switchStotra(key) {
+    activeStotra = key;
+    switchTab('stotras');
 }
 
 function showView(view){
@@ -136,6 +186,10 @@ function showView(view){
   document.getElementById("infoBtn").classList.toggle("active", view === "info");
   document.getElementById("galleryBtn").classList.toggle("active", view === "gallery");
   render();
+}
+
+function parseText(text) {
+  return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 }
 
 function render(){
@@ -146,63 +200,91 @@ function render(){
 
 function renderInfo(container){
   let title = activeTab.charAt(0).toUpperCase() + activeTab.slice(1);
-  let html = `<h2 class='text-xl md:text-2xl font-bold mb-4 text-orange-800 border-b-2 border-orange-100 pb-2'>${title === 'About' ? 'About Us' : title}</h2>`;
+  let html = `<h2 class='text-xl md:text-2xl font-bold mb-4 text-orange-800 border-b-2 border-orange-100 pb-2'>${activeTab === 'about' ? 'About Us' : title}</h2>`;
   
   if(activeTab === "stotras") {
       html += `
-        <div class="flex gap-2 mb-6 overflow-x-auto pb-2 custom-scroll">
-            <button class="sub-tab-btn ${activeStotra === 'rayara' ? 'active' : ''}" onclick="activeStotra='rayara'; render();">Rayara Ashtottara</button>
-            <button class="sub-tab-btn ${activeStotra === 'vayu' ? 'active' : ''}" onclick="activeStotra='vayu'; render();">Hari Vayu Stuti</button>
-            <button class="sub-tab-btn ${activeStotra === 'sundara' ? 'active' : ''}" onclick="activeStotra='sundara'; render();">Sundarakanda</button>
+        <div class="flex gap-2 mb-4 overflow-x-auto pb-2 custom-scroll">
+            <button class="sub-tab-btn ${activeStotra === 'rayara' ? 'active' : ''}" onclick="activeStotra='rayara'; render(); scrollToContentTop();">Rayara Ashtottara</button>
+            <button class="sub-tab-btn ${activeStotra === 'vayu' ? 'active' : ''}" onclick="activeStotra='vayu'; render(); scrollToContentTop();">Hari Vayu Stuti</button>
+            <button class="sub-tab-btn ${activeStotra === 'sundara' ? 'active' : ''}" onclick="activeStotra='sundara'; render(); scrollToContentTop();">Sundarakanda</button>
         </div>
         <div class="stotra-content">
-            ${stotraData[activeStotra]}
-        </div>
-      `;
-  } else if(activeTab === "contact") {
+            ${typeof stotraData !== 'undefined' ? stotraData[activeStotra] : 'Loading Stotra Content...'}
+        </div>`;
+  } 
+  else if(activeTab === "contact") {
       html += `
         <div class='flex flex-col gap-3'>
-          <div class='bg-yellow-50 p-3 rounded-xl border text-sm font-bold shadow-sm text-gray-800'>✦ <strong>Jaya Hari Parayana Sangha</strong></div>
-          <div class='bg-yellow-50 p-3 rounded-xl border text-sm font-bold shadow-sm text-gray-800 mb-2'>✦ Email: jayahariparayanasangha@gmail.com</div>
+          <div class='bg-yellow-50 p-3 rounded-xl border text-sm font-bold text-gray-800'>✦ <strong>Jaya Hari Parayana Sangha</strong></div>
+          <div class='bg-yellow-50 p-3 rounded-xl border text-sm font-bold text-gray-800 mb-2'>✦ Email: jayahariparayanasangha@gmail.com</div>
           <h3 class='text-md font-bold text-orange-700 mt-2 mb-2'>Area Contacts</h3>
           <div class="area-grid">
             ${["Kondapur", "Nallagandla", "Miyapur", "BHEL"].map(place => `
               <div class='area-box'>
-                <div class='text-[10px] font-black uppercase text-orange-600 tracking-widest mb-2 border-b border-orange-50 pb-1'>${place}</div>
+                <div class='text-[10px] font-black uppercase text-orange-600 tracking-widest mb-1 border-b border-orange-50 pb-1'>${place}</div>
                 <div class='contact-row'><div class='text-xs font-semibold text-gray-800'>Pavan Ashrit</div><a href="tel:9686155558" class="call-btn">9686155558</a></div>
                 <div class='contact-row'><div class='text-xs font-semibold text-gray-800'>Srikanth Joshi</div><a href="tel:9573313511" class="call-btn">9573313511</a></div>
               </div>`).join('')}
           </div>
+          <h3 class='text-md font-bold text-orange-700 mt-4 mb-2'>Social Media</h3>
+          <div class="flex flex-col sm:flex-row gap-2">
+            <a href="https://www.instagram.com/jayahariparayanasangha/" target="_blank" class="action-btn instagram shadow-md flex items-center justify-center gap-2" style="padding: 6px 12px; font-size: 0.8rem;"><i class="fa-brands fa-instagram text-lg"></i> Instagram</a>
+            <a href="https://www.youtube.com/@JayaHariParayanaSangha" target="_blank" class="action-btn youtube shadow-md flex items-center justify-center gap-2" style="padding: 6px 12px; font-size: 0.8rem;"><i class="fa-brands fa-youtube text-lg"></i> YouTube</a>
+          </div>
+        </div>`;
+  } 
+  else if(activeTab === "parayana") {
+      html += "<div class='flex flex-col gap-3'>";
+      const links = [
+          { n: "Rayara Ashtottara", k: "rayara" },
+          { n: "Hari Vayu Stuti Purascharana", k: "vayu" },
+          { n: "Sundarakanda", k: "sundara" }
+      ];
+      links.forEach(item => {
+          html += `
+            <div onclick="switchStotra('${item.k}')" class='bg-yellow-50 p-4 rounded-xl border-2 border-transparent hover:border-orange-400 cursor-pointer transition shadow-sm flex justify-between items-center group'>
+                <span class="font-bold text-gray-800">✦ ${item.n}</span>
+                <span class="text-[10px] bg-orange-100 text-orange-700 px-2 py-1 rounded group-hover:bg-orange-600 group-hover:text-white">Read <i class="fa-solid fa-chevron-right ml-1"></i></span>
+            </div>`;
+      });
+      html += "</div>";
+      html += `
+        <div class='mt-6 p-4 bg-yellow-100 border-l-4 border-yellow-500 rounded-r-xl shadow-sm text-center'>
+            <p class='font-bold text-orange-900 text-sm mb-3 italic underline'>Please contact us via WhatsApp to confirm slots before registering.</p>
+            <div class='flex flex-col sm:flex-row justify-center gap-2'>
+              <a class='action-btn whatsapp shadow-md' href='https://wa.me/${WHATSAPP}' target='_blank' style="padding: 6px 16px; font-size: 0.8rem;"><i class="fa-brands fa-whatsapp mr-2"></i>WhatsApp</a>
+              <a class='action-btn form shadow-md' href='${FORM}' target='_blank' style="padding: 6px 16px; font-size: 0.8rem;"><i class="fa-solid fa-file-signature mr-2"></i>Register</a>
+            </div>
         </div>`;
   } else {
       let data = contentData[activeTab] || [];
       html += "<div class='flex flex-col gap-2'>";
       data.forEach(item => {
-          if(typeof item === 'object') {
-              html += `<div onclick="(${item.action})()" class='bg-yellow-50 p-3 rounded-xl border text-sm md:text-base font-bold shadow-sm text-gray-800 cursor-pointer hover:bg-orange-50 transition'>✦ ${item.name} <i class="fa-solid fa-arrow-right ml-2 text-xs text-orange-400"></i></div>`;
-          } else if(item.startsWith("-")) {
-              html += `<div class='ml-6 md:ml-10 text-sm text-gray-700 bg-orange-50 p-2 rounded-lg border border-orange-100 italic'>○ ${item.replace(/\*\*/g, '').substring(1).trim()}</div>`;
+          if(item.startsWith("-")) {
+              html += `<div class='ml-6 md:ml-10 text-sm text-gray-700 bg-orange-50 p-2 rounded-lg border border-orange-100 italic'>○ ${parseText(item.substring(1).trim())}</div>`;
           } else {
-              html += `<div class='bg-yellow-50 p-3 rounded-xl border text-sm md:text-base font-bold shadow-sm text-gray-800'>✦ ${item}</div>`;
+              html += `<div class='bg-yellow-50 p-3 rounded-xl border text-sm md:text-base font-bold shadow-sm text-gray-800'>✦ ${parseText(item)}</div>`;
           }
       });
       html += "</div>";
   }
-
-  if(activeTab === "parayana") {
-    html += `<div class='mt-6 p-4 bg-yellow-100 border-l-4 border-yellow-500 rounded-r-xl shadow-sm text-center'>
-        <p class='font-bold text-orange-900 text-sm mb-3 italic underline'>Please contact us via WhatsApp to confirm slots before registering.</p>
-        <div class='flex flex-col sm:flex-row justify-center gap-2'>
-          <a class='action-btn whatsapp shadow-md' href='https://wa.me/${WHATSAPP}' target='_blank' style="padding: 6px 16px; font-size: 0.8rem;"><i class="fa-brands fa-whatsapp mr-2"></i>WhatsApp</a>
-          <a class='action-btn form shadow-md' href='${FORM}' target='_blank' style="padding: 6px 16px; font-size: 0.8rem;"><i class="fa-solid fa-file-signature mr-2"></i>Register</a>
-        </div>
-      </div>`;
-  }
+  
   container.innerHTML = html;
 }
 
 function renderGallery(container){
-  container.innerHTML = `<h2 class='text-xl md:text-2xl font-bold mb-4 text-orange-800 border-b-2 border-orange-100 pb-2'>Gallery</h2><p class="text-gray-400 italic text-center py-20 w-full">No photos available yet.</p>`;
+  let html = `<h2 class='text-xl md:text-2xl font-bold mb-4 text-orange-800 border-b-2 border-orange-100 pb-2'>Gallery</h2>`;
+  html += "<div class='grid grid-cols-1 sm:grid-cols-2 gap-4'>";
+  const imgs = gallery[activeTab] || [];
+  imgs.forEach((img) => {
+    html += `<div class="img-card relative">
+        <img src='${img}' class='gallery-img' onerror="this.src='https://via.placeholder.com/400x300?text=Image+Loading...'">
+    </div>`;
+  });
+  if(imgs.length === 0) html += `<p class="text-gray-400 italic text-center py-20 w-full col-span-full">No photos available yet.</p>`;
+  html += "</div>";
+  container.innerHTML = html;
 }
 
 render();
