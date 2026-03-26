@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jaya Hari Parayana Sangha</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
   body { display: flex; flex-direction: column; font-family: sans-serif; min-height: 100vh; }
@@ -23,6 +24,8 @@
   .action-btn { display:inline-block; margin-top:8px; padding:8px 20px; border-radius:8px; color:white; font-weight:bold; text-decoration:none; font-size: 0.9rem; transition: 0.3s; text-align: center; }
   .whatsapp { background-color: #16a34a; }
   .form { background-color: #2563eb; }
+  .instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+  .youtube { background-color: #ff0000; }
 
   .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
   .custom-scroll::-webkit-scrollbar-thumb { background: #fb923c; border-radius: 10px; }
@@ -95,7 +98,13 @@ const contentData = {
     "- **Every Thursday at 7:30 AM: Rayara Ashtottara at Bhagyanagara Krishna Matha, Kondapur**"
   ],
   about: ["Nurturing Dharma Through Practice."],
-  contact: ["Jaya Hari Parayana Sangha", "Ph: 9686155558", "Email: jayahariparayanasangha@gmail.com"]
+  contact: [
+    "Jaya Hari Parayana Sangha", 
+    "Ph: 9686155558", 
+    "Email: jayahariparayanasangha@gmail.com",
+    "LINK|Instagram|https://www.instagram.com/jayahariparayanasangha/|fa-brands fa-instagram",
+    "LINK|Youtube|https://www.youtube.com/@JayaHariParayanaSangha|fa-brands fa-youtube"
+  ]
 };
 
 const gallery = {
@@ -130,7 +139,6 @@ function render(){
   else renderInfo(area);
 }
 
-// Simple function to handle bolding via **text**
 function parseText(text) {
   return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
 }
@@ -145,8 +153,15 @@ function renderInfo(container){
   } else {
     html += "<ul class='space-y-3'>";
     data.forEach(item => {
-      if(item.startsWith("-")) {
-        // Sub-bullet style: Indented, smaller font, but now supporting bold via parseText
+      if(item.startsWith("LINK|")) {
+        const [_, label, url, icon] = item.split("|");
+        html += `
+          <li class="pt-2">
+            <a href="${url}" target="_blank" class="action-btn ${label.toLowerCase()} shadow-md w-full sm:w-auto flex items-center justify-center gap-2">
+              <i class="${icon} text-xl"></i> Follow on ${label}
+            </a>
+          </li>`;
+      } else if(item.startsWith("-")) {
         html += `<li class='ml-6 md:ml-10 text-sm md:text-base text-gray-700 bg-orange-50 p-2 md:p-3 rounded-lg border border-orange-100 italic'>○ ${parseText(item.substring(1).trim())}</li>`;
       } else {
         html += `<li class='bg-yellow-50 p-3 md:p-4 rounded-xl border text-base md:text-lg font-bold shadow-sm'>✦ ${parseText(item)}</li>`;
@@ -160,8 +175,8 @@ function renderInfo(container){
       <div class='mt-8 p-4 md:p-6 bg-yellow-100 border-l-4 border-yellow-500 rounded-r-xl shadow-sm text-center'>
         <p class='font-bold text-orange-900 text-sm md:text-lg mb-4 italic underline'>Please contact us via WhatsApp to confirm slots before registering.</p>
         <div class='flex flex-col sm:flex-row justify-center gap-3'>
-          <a class='action-btn whatsapp shadow-md' href='https://wa.me/${WHATSAPP}' target='_blank'>WhatsApp Contact</a>
-          <a class='action-btn form shadow-md' href='${FORM}' target='_blank'>Register Online</a>
+          <a class='action-btn whatsapp shadow-md' href='https://wa.me/${WHATSAPP}' target='_blank'><i class="fa-brands fa-whatsapp mr-2"></i>WhatsApp Contact</a>
+          <a class='action-btn form shadow-md' href='${FORM}' target='_blank'><i class="fa-solid fa-file-signature mr-2"></i>Register Online</a>
         </div>
       </div>`;
   }
