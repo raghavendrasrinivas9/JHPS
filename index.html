@@ -50,7 +50,7 @@
   #scrollToTopBtn {
     position: fixed; bottom: 25px; right: 25px; background-color: #ea580c; color: white; width: 45px; height: 45px;
     border-radius: 50%; display: none; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-    cursor: pointer; z-index: 1000; transition: 0.3s; border: 2px solid white;
+    cursor: pointer; z-index: 9999; transition: 0.3s; border: 2px solid white;
   }
 </style>
 </head>
@@ -78,7 +78,7 @@
     <div id="parayanaTab" class="tab-btn active-tab" onclick="switchTab('parayana')">📖 Parayana</div>
     <div id="stotrasTab" class="tab-btn" onclick="switchTab('stotras')">📜 Stotras</div>
     <div id="bhajanaTab" class="tab-btn" onclick="switchTab('bhajana')">🎵 Bhajana</div>
-    <div id="trainingsTab" class="tab-btn" onclick="switchTab('trainings')">🎓 Trainings</div>
+    <div id="learningsTab" class="tab-btn" onclick="switchTab('learnings')">🎓 Learnings</div>
     <div id="sevaTab" class="tab-btn" onclick="switchTab('seva')">❤️ Seva</div>
     <div id="activitiesTab" class="tab-btn" onclick="switchTab('activities')">📅 Activities</div>
     <div id="aboutTab" class="tab-btn" onclick="switchTab('about')">ℹ️ About</div>
@@ -108,34 +108,42 @@ const FORM = "https://docs.google.com/forms/d/1JZgvz4o701VtrCeTcyD5mb1Dl31DC_eAX
 
 const contentData = {
   bhajana: ["Jaya Hari Bhajana Mandali"],
-  trainings: ["Sandhya Vandana", "Sankshipta Deva Pooja", "Mantrabhyasa"],
+  learnings: ["Sandhya Vandana", "Sankshipta Deva Pooja", "Mantrabhyasa"],
   seva: ["Annadhana"],
   activities: ["Weekly Events", "- **Every Thursday at 7:30 AM: Rayara Ashtottara at Bhagyanagara Krishna Matha, Kondapur**"],
   about: ["Nurturing Dharma Through Practice."]
 };
 
 const parayanaSequences = {
-  rayara: ["Venkatesha Stotra", "Vishnu Sahasranama Stotra", "Manyu Skutha", "Rama Stotra", "Hari Vayu Stuti", "Sundarakanda", "Yantrodharaka Hanumat Stotra", "Jayatheertha Stotra", "Raghuttama Stotra", "Raghavendra Stotra - 3 times"],
-  vayu: ["Venkatesha Stotra", "Vishnu Sahasranama Stotra", "Manyu Skutha", "Rama Stotra", "Hari Vayu Stuti - Purascharana", "Sundarakanda", "Yantrodharaka Hanumat Stotra", "Jayatheertha Stotra", "Raghuttama Stotra", "Raghavendra Stotra"],
-  sundara: ["Venkatesha Stotra", "Vishnu Sahasranama Stotra", "Manyu Skutha", "Rama Stotra", "Hari Vayu Stuti", "Sundarakanda - 3 times", "Yantrodharaka Hanumat Stotra", "Jayatheertha Stotra", "Raghuttama Stotra", "Raghavendra Stotra"]
+  rayara: ["Venkatesha Stotra", "Vishnu Sahasranama Stotra", "Manyu Skutha", "Rama Stotra", "Sundarakanda", "Hari Vayu Stuti", "Yantrodharaka Hanumat Stotra", "Jayatheertha Stotra", "Raghuttama Stotra", "Raghavendra Stotra - 3 times"],
+  vayu: ["Venkatesha Stotra", "Vishnu Sahasranama Stotra", "Manyu Skutha", "Rama Stotra", "Sundarakanda", "Hari Vayu Stuti - Purascharana", "Yantrodharaka Hanumat Stotra", "Jayatheertha Stotra", "Raghuttama Stotra", "Raghavendra Stotra"],
+  sundara: ["Venkatesha Stotra", "Vishnu Sahasranama Stotra", "Manyu Skutha", "Rama Stotra", "Sundarakanda - 3 times", "Hari Vayu Stuti", "Yantrodharaka Hanumat Stotra", "Jayatheertha Stotra", "Raghuttama Stotra", "Raghavendra Stotra"]
 };
 
-const gallery = { parayana: ["images/Parayana1.jpg"], bhajana: ["images/Bhajana1.jpg"], trainings: ["images/Training1.jpg"], seva: ["images/Seva1.jpg"], activities: ["images/Activities1.jpg"] };
+const gallery = { parayana: ["images/Parayana1.jpg"], bhajana: ["images/Bhajana1.jpg"], learnings: ["images/Training1.jpg"], seva: ["images/Seva1.jpg"], activities: ["images/Activities1.jpg"] };
 
-document.getElementById('contentArea').addEventListener('scroll', function() {
-  const btn = document.getElementById('scrollToTopBtn');
-  btn.style.display = this.scrollTop > 250 ? "flex" : "none";
+// Enhanced Scroll Logic
+const contentArea = document.getElementById('contentArea');
+const scrollBtn = document.getElementById('scrollToTopBtn');
+
+contentArea.addEventListener('scroll', function() {
+  if (this.scrollTop > 200) {
+    scrollBtn.style.display = "flex";
+  } else {
+    scrollBtn.style.display = "none";
+  }
 });
 
-function scrollToContentTop() { document.getElementById('contentArea').scrollTo({ top: 0, behavior: 'smooth' }); }
+function scrollToContentTop() { contentArea.scrollTo({ top: 0, behavior: 'smooth' }); }
 
 function switchTab(tab){
   activeTab = tab;
   currentView = "info";
-  ["parayana","stotras","bhajana","trainings","seva","activities","about","contact"].forEach(t => {
+  ["parayana","stotras","bhajana","learnings","seva","activities","about","contact"].forEach(t => {
     document.getElementById(t + "Tab")?.classList.toggle("active-tab", t === tab);
   });
   render();
+  scrollToContentTop();
 }
 
 function toggleDropdown(id) {
@@ -205,13 +213,14 @@ function renderInfo(container){
   } else if(activeTab === "stotras") {
       html += `
         <div class="flex gap-2 mb-4 overflow-x-auto pb-2 custom-scroll">
-            <button class="sub-tab-btn ${activeStotra === 'vishnu' ? 'active' : ''}" onclick="activeStotra='vishnu'; render(); scrollToContentTop();">Vishnu Sahasranama</button>
-            <button class="sub-tab-btn ${activeStotra === 'vayu' ? 'active' : ''}" onclick="activeStotra='vayu'; render(); scrollToContentTop();">Hari Vayu Stuti</button>
+            <button class="sub-tab-btn ${activeStotra === 'vishnu' ? 'active' : ''}" onclick="activeStotra='vishnu'; render(); scrollToContentTop();">Vishnu Sahasranamam</button>
+            <button class="sub-tab-btn ${activeStotra === 'rama' ? 'active' : ''}" onclick="activeStotra='rama'; render(); scrollToContentTop();">Rama Stotram</button>
             <button class="sub-tab-btn ${activeStotra === 'sundara' ? 'active' : ''}" onclick="activeStotra='sundara'; render(); scrollToContentTop();">Sundarakanda</button>
+            <button class="sub-tab-btn ${activeStotra === 'vayu' ? 'active' : ''}" onclick="activeStotra='vayu'; render(); scrollToContentTop();">Hari Vayu Stuti</button>
             <button class="sub-tab-btn ${activeStotra === 'rayara' ? 'active' : ''}" onclick="activeStotra='rayara'; render(); scrollToContentTop();">Raghavendra Stotra</button>
         </div>
         <div class="stotra-content custom-scroll overflow-y-auto" style="max-height: 65vh;">
-            ${stotraData[activeStotra] || "Content loading..."}
+            ${typeof stotraData !== 'undefined' ? (stotraData[activeStotra] || "Content loading...") : "Error: stotras.js not loaded."}
         </div>`;
   } else if(activeTab === "contact") {
       html += `<div class='flex flex-col gap-3'>
@@ -256,6 +265,7 @@ function renderKannadaStotra(container) {
   container.innerHTML = `<h2 class='text-xl md:text-2xl font-bold mb-4 text-orange-800 border-b-2 border-orange-100 pb-2'>Kannada Version</h2><div class="stotra-content py-20 text-center text-gray-400 italic">Kannada version coming soon...</div>`;
 }
 
+// Initial Render
 render();
 </script>
 </body>
