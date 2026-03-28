@@ -227,38 +227,38 @@ function renderInfo(container){
                 </div>
                 <div id="content-learning-${catId}" class="learning-content p-0">
                     <div class="p-4 space-y-6">`;
-            cat.vedas.forEach(v => {
-                html += `
-                    <div class="bg-orange-50 rounded-lg border border-orange-100 overflow-hidden">
-                        <div class="bg-orange-200 px-4 py-2 font-bold text-orange-900 text-xs">📖 ${v.name}</div>
-                        <div class="overflow-x-auto"><table class="w-full text-xs text-left">
-                            <thead class="bg-orange-100 text-orange-700 uppercase">
-                                <tr><th class="px-4 py-2">Language</th><th class="px-4 py-2 text-center">Resources</th></tr>
-                            </thead>
-                            <tbody class="divide-y divide-orange-100">
-                                ${v.resources.map(r => `
-                                <tr class="hover:bg-white transition">
-                                    <td class="px-4 py-3 font-semibold">${r.lang}</td>
-                                    <td class="px-4 py-3 text-center">
-                                        <div class="flex justify-center gap-6 text-lg">
-                                            ${r.audio !== '#' ? `<button onclick="playStream('${r.audio}', '${v.name} - ${r.lang}')" class="text-blue-600"><i class="fa-solid fa-circle-play"></i></button>` : `<i class="fa-solid fa-circle-play text-gray-300"></i>`}
-                                            ${r.video !== '#' ? `<a href="${r.video}" target="_blank" class="text-red-600"><i class="fa-brands fa-youtube"></i></a>` : `<i class="fa-brands fa-youtube text-gray-300"></i>`}
-                                            ${r.pdf !== '#' ? `
-												<a href="${r.pdf}" 
-												   target="_blank" 
-												   rel="noopener noreferrer" 
-												   title="Open PDF" 
-												   class="text-green-600 hover:scale-110 transition">
-												   <i class="fa-solid fa-file-pdf"></i>
-												</a>` 
-											: `<i class="fa-solid fa-file-pdf text-gray-300"></i>`}
-                                        </div>
-                                    </td>
-                                </tr>`).join('')}
-                            </tbody>
-                        </table></div>
-                    </div>`;
-            });
+					cat.vedas.forEach(v => {
+			html += `
+				<div class="bg-orange-50 rounded-lg border border-orange-100 overflow-hidden mb-6 shadow-sm">
+					<div class="bg-orange-200 px-4 py-3 font-extrabold text-orange-900 text-base md:text-lg italic border-b border-orange-300">
+					  <i class="fa-solid fa-book-open mr-2"></i> ${v.name}
+					</div>
+					<div class="overflow-x-auto">
+						<table class="w-full text-xs md:text-sm text-left">
+							<thead class="bg-orange-100 text-orange-700 uppercase">
+								<tr>
+									<th class="px-4 py-2">Language</th>
+									<th class="px-4 py-2 text-center">Resources</th>
+								</tr>
+							</thead>
+							<tbody class="divide-y divide-orange-100">
+								${v.resources.map(r => `
+								<tr class="hover:bg-white transition">
+									<td class="px-4 py-3 font-semibold text-gray-800">${r.lang}</td>
+									<td class="px-4 py-3">
+										<div class="flex justify-center gap-6 text-xl">
+											${r.audio !== '#' ? `<button onclick="playStream('${r.audio}', '${v.name} - ${r.lang}')" class="text-blue-600 hover:scale-110 transition" title="Play Audio"><i class="fa-solid fa-circle-play"></i></button>` : `<i class="fa-solid fa-circle-play text-gray-300"></i>`}
+											${r.video !== '#' ? `<a href="${r.video}" target="_blank" class="text-red-600 hover:scale-110 transition" title="Watch Video"><i class="fa-brands fa-youtube"></i></a>` : `<i class="fa-brands fa-youtube text-gray-300"></i>`}
+											${r.pdf !== '#' ? `<a href="${r.pdf}" target="_blank" class="text-green-600 hover:scale-110 transition" title="Open PDF"><i class="fa-solid fa-file-pdf"></i></a>` : `<i class="fa-solid fa-file-pdf text-gray-300"></i>`}
+										</div>
+									</td>
+								</tr>`).join('')}
+							</tbody>
+						</table>
+					</div>
+				</div>`;
+		});
+					
             html += `</div></div></div>`;
         });
         html += "</div>";
