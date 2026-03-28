@@ -31,10 +31,14 @@
   /* Content Styling */
   .stotra-content { font-family: 'Sanskrit', 'Noto Sans Devanagari', 'Noto Sans Telugu', serif; background: #fffcf0; padding: 15px; border-radius: 10px; border: 1px dashed #d97706; }
   .dropdown-content, .learning-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background-color: #fffaf0; }
-  .dropdown-content.open, .learning-content.open { max-height: 1500px; padding: 12px; border: 1px solid #fde68a; border-top: none; }
+  .dropdown-content.open, .learning-content.open { max-height: 2000px; padding: 12px; border: 1px solid #fde68a; border-top: none; }
   
   .rotate-icon { transition: transform 0.3s; }
   .rotate-icon.active { transform: rotate(180deg); }
+
+  /* Part Cards for Sub-page */
+  .part-card { border-left: 4px solid #ea580c; transition: 0.3s; }
+  .part-card:hover { background-color: #fff7ed; transform: translateX(5px); }
 
   /* UI Fixed Elements */
   #scrollToTopBtn {
@@ -52,6 +56,10 @@
   }
   .spinning-disc { animation: spin 4s linear infinite; }
   @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  
+  .action-btn { display:inline-block; margin-top:8px; padding:8px 20px; border-radius:8px; color:white; font-weight:bold; text-decoration:none; font-size: 0.9rem; transition: 0.3s; text-align: center; }
+  .whatsapp { background-color: #16a34a; }
+  .form { background-color: #2563eb; }
 </style>
 </head>
 
@@ -60,7 +68,7 @@
 <header class="bg-yellow-100 p-2 md:p-3 shadow-sm shrink-0 border-b border-yellow-200">
   <div class="max-w-6xl mx-auto flex justify-between items-center">
     <div class="w-1/4 md:w-1/3 flex items-center justify-start gap-1 md:gap-3">
-      <img src="images/Ram.jpg" alt="Ram" class="h-10 w-10 md:h-20 md:w-20 rounded-full border-2 border-orange-400 object-cover shadow-sm shrink-0">
+      <img src="images/Ram.jpg" alt="Ram" class="h-10 w-10 md:h-20 md:w-20 rounded-full border-2 border-orange-400 object-cover shadow-sm">
       <span class="motto-text">Hari Sarvothama</span>
     </div>
     <div class="w-2/4 md:w-1/3 flex justify-center">
@@ -68,7 +76,7 @@
     </div>
     <div class="w-1/4 md:w-1/3 flex items-center justify-end gap-1 md:gap-3 text-right">
       <span class="motto-text">Vayu Jeevothama</span>
-      <img src="images/Hanuman.jpg" alt="Hanuman" class="h-10 w-10 md:h-20 md:w-20 rounded-full border-2 border-orange-400 object-cover shadow-sm shrink-0">
+      <img src="images/Hanuman.jpg" alt="Hanuman" class="h-10 w-10 md:h-20 md:w-20 rounded-full border-2 border-orange-400 object-cover shadow-sm">
     </div>
   </div>
 </header>
@@ -86,7 +94,7 @@
   </aside>
 
   <main class="flex-1 p-4 md:p-6 flex flex-col overflow-hidden relative">
-    <div class="mb-4 flex items-center shrink-0">
+    <div id="topNav" class="mb-4 flex items-center shrink-0">
       <button id="infoBtn" class="top-btn active" onclick="showView('info')">Details</button>
       <button id="galleryBtn" class="top-btn" onclick="showView('gallery')">Gallery</button>
     </div>
@@ -113,11 +121,16 @@
 
 <script src="stotras.js"></script>
 <script src="learnings.js"></script>
+<script src="learning-parts-sv.js"></script>
 
 <script>
 let activeTab = "parayana";
 let currentView = "info";
 let activeStotra = "vishnu";
+let activePartKey = null;
+
+const WHATSAPP = "919686155558";
+const FORM = "https://docs.google.com/forms/d/1JZgvz4o701VtrCeTcyD5mb1Dl31DC_eAXagFk_2iUck/viewform";
 
 const contentData = {
   bhajana: ["Jaya Hari Bhajana Mandali"],
@@ -160,11 +173,12 @@ function toggleAudio() {
 }
 function stopAudio() { gAudio.pause(); aBar.style.display = "none"; }
 
-// Tab Management
+// Navigation
 function switchTab(tab){
-  activeTab = tab; currentView = "info";
+  activeTab = tab; currentView = "info"; activePartKey = null;
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active-tab'));
   document.getElementById(tab + "Tab")?.classList.add('active-tab');
+  document.getElementById('topNav').style.display = "flex";
   render(); scrollToContentTop();
 }
 
@@ -175,12 +189,25 @@ function showView(view){
   render();
 }
 
+function openSVParts(key) {
+    activePartKey = key;
+    currentView = "sv-parts";
+    document.getElementById('topNav').style.display = "none";
+    render();
+    scrollToContentTop();
+}
+
 function render(){
-  let infoBtn = document.getElementById("infoBtn");
-  let galleryBtn = document.getElementById("galleryBtn");
-  if (activeTab === "stotras") { infoBtn.innerText = "Telugu"; galleryBtn.innerText = "Kannada"; }
-  else { infoBtn.innerText = "Details"; galleryBtn.innerText = "Gallery"; }
-  
+  if (currentView === "sv-parts") { renderSVParts(); return; }
+
+  if (activeTab === "stotras") {
+    document.getElementById("infoBtn").innerText = "Telugu";
+    document.getElementById("galleryBtn").innerText = "Kannada";
+  } else {
+    document.getElementById("infoBtn").innerText = "Details";
+    document.getElementById("galleryBtn").innerText = "Gallery";
+  }
+
   if (currentView === "gallery" && activeTab !== "stotras") {
       area.innerHTML = `<p class="text-gray-400 italic text-center py-20">Gallery coming soon...</p>`;
   } else if (currentView === "gallery" && activeTab === "stotras") {
@@ -227,38 +254,38 @@ function renderInfo(container){
                 </div>
                 <div id="content-learning-${catId}" class="learning-content p-0">
                     <div class="p-4 space-y-6">`;
-					cat.vedas.forEach(v => {
-			html += `
-				<div class="bg-orange-50 rounded-lg border border-orange-100 overflow-hidden mb-6 shadow-sm">
-					<div class="bg-orange-200 px-4 py-3 font-extrabold text-orange-900 text-base md:text-lg italic border-b border-orange-300">
-					  <i class="fa-solid fa-book-open mr-2"></i> ${v.name}
-					</div>
-					<div class="overflow-x-auto">
-						<table class="w-full text-xs md:text-sm text-left">
-							<thead class="bg-orange-100 text-orange-700 uppercase">
-								<tr>
-									<th class="px-4 py-2">Language</th>
-									<th class="px-4 py-2 text-center">Resources</th>
-								</tr>
-							</thead>
-							<tbody class="divide-y divide-orange-100">
-								${v.resources.map(r => `
-								<tr class="hover:bg-white transition">
-									<td class="px-4 py-3 font-semibold text-gray-800">${r.lang}</td>
-									<td class="px-4 py-3">
-										<div class="flex justify-center gap-6 text-xl">
-											${r.audio !== '#' ? `<button onclick="playStream('${r.audio}', '${v.name} - ${r.lang}')" class="text-blue-600 hover:scale-110 transition" title="Play Audio"><i class="fa-solid fa-circle-play"></i></button>` : `<i class="fa-solid fa-circle-play text-gray-300"></i>`}
-											${r.video !== '#' ? `<a href="${r.video}" target="_blank" class="text-red-600 hover:scale-110 transition" title="Watch Video"><i class="fa-brands fa-youtube"></i></a>` : `<i class="fa-brands fa-youtube text-gray-300"></i>`}
-											${r.pdf !== '#' ? `<a href="${r.pdf}" target="_blank" class="text-green-600 hover:scale-110 transition" title="Open PDF"><i class="fa-solid fa-file-pdf"></i></a>` : `<i class="fa-solid fa-file-pdf text-gray-300"></i>`}
-										</div>
-									</td>
-								</tr>`).join('')}
-							</tbody>
-						</table>
-					</div>
-				</div>`;
-		});
-					
+            cat.vedas.forEach(v => {
+                const partKey = v.name.toLowerCase().includes('rig') ? 'rig' : 'yajur';
+                const hasParts = (cat.category === "Sandhya Vandana");
+
+                html += `
+                    <div class="bg-orange-50 rounded-lg border border-orange-100 overflow-hidden mb-6 shadow-sm">
+                        <div class="bg-orange-200 px-4 py-3 font-extrabold text-orange-900 text-base md:text-lg italic border-b border-orange-300 flex justify-between items-center">
+                          <span><i class="fa-solid fa-book-open mr-2"></i> ${v.name}</span>
+                          ${hasParts ? `<button onclick="event.stopPropagation(); openSVParts('${partKey}')" class="bg-orange-600 text-white text-[10px] px-2 py-1 rounded hover:bg-orange-700">Learn in Parts <i class="fa-solid fa-arrow-right ml-1"></i></button>` : ''}
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-xs md:text-sm text-left">
+                                <thead class="bg-orange-100 text-orange-700 uppercase">
+                                    <tr><th class="px-4 py-2">Language</th><th class="px-4 py-2 text-center">Resources</th></tr>
+                                </thead>
+                                <tbody class="divide-y divide-orange-100">
+                                    ${v.resources.map(r => `
+                                    <tr class="hover:bg-white transition">
+                                        <td class="px-4 py-3 font-semibold text-gray-800">${r.lang}</td>
+                                        <td class="px-4 py-3">
+                                            <div class="flex justify-center gap-6 text-xl">
+                                                ${r.audio !== '#' ? `<button onclick="playStream('${r.audio}', '${v.name} - ${r.lang}')" class="text-blue-600 hover:scale-110 transition" title="Play Audio"><i class="fa-solid fa-circle-play"></i></button>` : `<i class="fa-solid fa-circle-play text-gray-300"></i>`}
+                                                ${r.video !== '#' ? `<a href="${r.video}" target="_blank" class="text-red-600 hover:scale-110 transition" title="Watch Video"><i class="fa-brands fa-youtube"></i></a>` : `<i class="fa-brands fa-youtube text-gray-300"></i>`}
+                                                ${r.pdf !== '#' ? `<a href="${r.pdf}" target="_blank" class="text-green-600 hover:scale-110 transition" title="Open PDF"><i class="fa-solid fa-file-pdf"></i></a>` : `<i class="fa-solid fa-file-pdf text-gray-300"></i>`}
+                                            </div>
+                                        </td>
+                                    </tr>`).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>`;
+            });
             html += `</div></div></div>`;
         });
         html += "</div>";
@@ -266,8 +293,20 @@ function renderInfo(container){
   }
   else if(activeTab === "stotras") {
       const sData = window.stotraData || stotraData || {};
+      const tabNames = {
+        vishnu: "Vishnu Sahasranamam",
+        rama: "Rama Stotram",
+        sundara: "Sundharakanda",
+        vayu: "Hari Vayu Stuthi",
+        rayara: "Raghavendra Stotram"
+      };
+
       html += `<div class="flex gap-2 mb-4 overflow-x-auto pb-2 custom-scroll">
-            ${['vishnu','rama','sundara','vayu','rayara'].map(s => `<button class="sub-tab-btn ${activeStotra === s ? 'active' : ''}" onclick="activeStotra='${s}'; render(); scrollToContentTop();">${s.toUpperCase()}</button>`).join('')}
+            ${['vishnu','rama','sundara','vayu','rayara'].map(s => `
+                <button class="sub-tab-btn ${activeStotra === s ? 'active' : ''}" 
+                        onclick="activeStotra='${s}'; render(); scrollToContentTop();">
+                    ${tabNames[s]}
+                </button>`).join('')}
         </div><div class="stotra-content overflow-y-auto">${sData[activeStotra] || "Loading content..."}</div>`;
   }
   else {
@@ -277,15 +316,53 @@ function renderInfo(container){
   container.innerHTML = html;
 }
 
+function renderSVParts() {
+    const dataDB = window.svPartsData || svPartsData || {};
+    const partData = dataDB[activePartKey];
+    if (!partData) {
+        area.innerHTML = `<p class="p-10 text-center">Data for parts not loaded.</p>`;
+        return;
+    }
+
+    let html = `
+        <button onclick="switchTab('learnings')" class="mb-4 text-orange-700 font-bold flex items-center gap-2 hover:underline">
+            <i class="fa-solid fa-arrow-left"></i> Back to Main Learnings
+        </button>
+        <h2 class="text-xl md:text-2xl font-black text-orange-900 border-b-4 border-orange-500 pb-2 mb-6">${partData.title}</h2>
+        <div class="grid grid-cols-1 gap-3">`;
+    
+    partData.steps.forEach(step => {
+        html += `
+            <div class="part-card bg-orange-50 p-4 rounded-r-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-sm border border-orange-100">
+                <div class="flex-1">
+                    <h4 class="font-bold text-orange-900">${step.id}. ${step.name}</h4>
+                    <p class="text-xs text-gray-600">${step.desc || ''}</p>
+                </div>
+                <div class="flex gap-4 text-xl">
+                    ${step.audio !== '#' ? `<button onclick="playStream('${step.audio}', '${step.name}')" class="text-blue-600" title="Audio"><i class="fa-solid fa-circle-play"></i></button>` : `<i class="fa-solid fa-circle-play text-gray-300"></i>`}
+                    ${step.video !== '#' ? `<a href="${step.video}" target="_blank" class="text-red-600" title="Video"><i class="fa-brands fa-youtube"></i></a>` : `<i class="fa-brands fa-youtube text-gray-300"></i>`}
+                </div>
+            </div>`;
+    });
+    html += `</div>`;
+    area.innerHTML = html;
+}
+
 function toggleDropdown(id, type) {
   const content = document.getElementById(`content-${type}-${id}`);
   const icon = document.getElementById(`icon-${type}-${id}`);
+  
+  if (!content) return;
+
   const isOpen = content.classList.contains('open');
   
   document.querySelectorAll('.dropdown-content, .learning-content').forEach(el => el.classList.remove('open'));
   document.querySelectorAll('.rotate-icon').forEach(el => el.classList.remove('active'));
   
-  if (!isOpen) { content.classList.add('open'); icon.classList.add('active'); }
+  if (!isOpen) { 
+    content.classList.add('open'); 
+    if (icon) icon.classList.add('active'); 
+  }
 }
 
 render();
