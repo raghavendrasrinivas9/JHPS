@@ -155,17 +155,26 @@ async function toggleSumadhwa(id) {
 }
 
 async function toggleGita(id) {
-    if (window.expandedGitaId === id) {
+    // Only close if the user clicks the EXACT same chapter that is already open
+    if (window.expandedGitaId === id && window.gitaTextContent !== "") {
         window.expandedGitaId = null;
+        window.gitaTextContent = "";
     } else {
         window.expandedGitaId = id;
-        window.gitaTextContent = "";
-        renderGitaBoxes(document.getElementById('stotraContainer'));
-        try {
-            const resp = await fetch(`stotras/bg-chapter${id}.txt?t=${new Date().getTime()}`);
-            if (!resp.ok) throw new Error();
-            window.gitaTextContent = await resp.text();
-        } catch { window.gitaTextContent = `<div class="text-orange-400 text-center py-4 font-bold uppercase tracking-widest">Coming Soon</div>`; }
+        // Proceed to fetch content as usual...
+        await refreshGitaContent(id); 
+    }
+    renderGitaBoxes(document.getElementById('stotraContainer'));
+}
+
+async function refreshGitaContent(id) {
+    const lang = window.activeLang.toLowerCase();
+    try {
+        const resp = await fetch(`stotras/bg-chapter${id}-${lang}.txt?t=${new Date().getTime()}`);
+        if (!resp.ok) throw new Error();
+        window.gitaTextContent = await resp.text();
+    } catch {
+        window.gitaTextContent = `<div class="text-orange-400 text-center py-4 font-bold uppercase tracking-widest">Coming Soon</div>`;
     }
     renderGitaBoxes(document.getElementById('stotraContainer'));
 }
