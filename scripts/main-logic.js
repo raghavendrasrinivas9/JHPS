@@ -13,8 +13,9 @@ window.activePartKey = null;
 ================================================================
 */
 function switchTab(tab) {
-    // Reset view state when switching main tabs
-    if (window.activeTab !== tab) {
+    const isNewTab = window.activeTab !== tab;
+    
+    if (isNewTab) {
         window.activeTab = tab;
         window.currentView = "info"; 
         window.activePartKey = null;
