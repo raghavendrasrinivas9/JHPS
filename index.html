@@ -97,7 +97,77 @@
 			from { transform: rotate(0deg); }
 			to { transform: rotate(360deg); }
 		}
+		
+		/* --- PDF Viewer  --- */
+		#pdf-viewer-overlay {
+		position: fixed !important;
+		top: 0 !important;
+		left: 0 !important;
+		width: 100vw !important;
+		height: 100vh !important;
+		}
 
+		/* Fix for mobile Safari height issues */
+		#pdf-viewer-overlay iframe {
+			height: calc(100% - 60px); /* Adjusts for the 60px header we created */
+			width: 100%;
+		}
+
+		.animate-fade-in {
+			animation: pdfFade 0.3s ease-out;
+		}
+
+		@keyframes pdfFade {
+			from { opacity: 0; transform: translateY(10px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+		
+		/* Ensure the PDF container takes full available height on mobile */
+		#contentArea {
+			display: flex;
+			flex-direction: column;
+			/* Use dvh (Dynamic Viewport Height) for mobile browser address bar compatibility */
+			height: calc(100vh - 80px); 
+			height: calc(100dvh - 80px);
+			overflow: hidden !important; 
+			position: relative;
+			padding: 0 !important;
+		}
+
+		/* Specific fix for the PDF Frame to fit perfectly */
+		#contentArea object, 
+		#contentArea iframe {
+			height: 100% !important;
+			width: 100% !important;
+			display: block;
+			min-height: 500px; /* Force minimum visibility for mobile */
+		}
+
+		/* Smooth transition when the PDF opens */
+		.animate-fade-in {
+			animation: fadeIn 0.4s ease-out;
+		}
+
+		@keyframes fadeIn {
+			from { opacity: 0; transform: scale(0.98); }
+			to { opacity: 1; transform: scale(1); }
+		}
+
+		/* Mobile specific adjustment: Accounts for smaller mobile headers */
+		@media (max-width: 768px) {
+			#contentArea {
+				height: calc(100vh - 64px); 
+				height: calc(100dvh - 64px);
+			}
+		}
+		/* Ensure PDF takes full space */
+		.pdf-frame {
+			width: 100%;
+			height: 100%;
+			border: none;
+			background: #f3f4f6; /* Gray background while loading */
+		}
+		
         /* --- MOBILE MENU ALIGNMENT --- */
         @media (max-width: 767px) {
             #sidebar {
@@ -150,6 +220,15 @@
             padding-bottom: 0.5rem;
         }
 		
+		/* Rotate expansion arrow */
+		.rotate-90 {
+			transform: rotate(90deg);
+		}
+
+		/* Ensure transition is applied for a smooth spin */
+		.transition-transform {
+			transition: transform 0.3s ease;
+		}
     </style>
 </head>
 
@@ -197,6 +276,7 @@
         <div id="stotrasTab" class="tab-btn" onclick="handleMenuClick('stotras')">📜 Stotras</div>
         <div id="bhajanaTab" class="tab-btn" onclick="handleMenuClick('bhajana')">🎵 Bhajana</div>
         <div id="learningsTab" class="tab-btn" onclick="handleMenuClick('learnings')">🎓 Learnings</div>
+		<div id="libraryTab" class="tab-btn" onclick="handleMenuClick('library')">📚 Library</div>
         <div id="sevaTab" class="tab-btn" onclick="handleMenuClick('seva')">❤️ Seva</div>
 		<div id="eventsTab" class="tab-btn" onclick="handleMenuClick('events')">📅 Events</div> 
 		<div id="aboutTab" class="tab-btn" onclick="handleMenuClick('about')">ℹ️ About</div>
@@ -235,6 +315,7 @@
 <script src="scripts/bhajana.js"></script>
 <script src="scripts/seva.js"></script>
 <script src="scripts/gallery.js"></script> 
+<script src="scripts/library.js"></script>
 <script src="scripts/main-logic.js"></script>
 
 <script>
