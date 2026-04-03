@@ -263,8 +263,15 @@ function closePDFViewer() {
 function toggleDropdown(id, type) {
     const content = document.getElementById(`content-${type}-${id}`);
     const icon = document.getElementById(`icon-${type}-${id}`);
-    if (content) content.classList.toggle('open');
-    if (icon) icon.classList.toggle('active');
+    
+    if (content) {
+        content.classList.toggle('open');
+    }
+    
+    if (icon) {
+        // Toggle rotate-90 instead of rotate-180
+        icon.classList.toggle('rotate-90');
+    }
 }
 
 function openLightbox(index) {
