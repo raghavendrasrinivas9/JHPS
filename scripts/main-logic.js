@@ -1,7 +1,6 @@
 /* ================================================================
    1. GLOBAL STATE
-================================================================
-*/
+================================================================ */
 window.activeTab = "parayana"; 
 window.currentView = "info";   
 window.activeStotra = "vishnu"; 
@@ -10,8 +9,7 @@ window.activePartKey = null;
 
 /* ================================================================
    2. NAVIGATION ENGINE
-================================================================
-*/
+================================================================ */
 function switchTab(tab) {
     const isNewTab = window.activeTab !== tab;
     
@@ -32,7 +30,7 @@ function switchTab(tab) {
     if (targetTab) targetTab.classList.add('active-tab');
 
     // HIDE TOP NAV for specific views/tabs
-    const noNavTabs = ["contact", "bhajana", "about", "events"];
+    const noNavTabs = ["contact", "bhajana", "about", "events", "library"];
     if (window.currentView === "sv-parts" || noNavTabs.includes(tab)) {
         if(topNav) topNav.style.display = "none";
     } else {
@@ -47,13 +45,16 @@ function switchTab(tab) {
                 btn3.innerText = "Sanskrit";
                 btn3.classList.toggle('active', window.activeLang === 'sanskrit');
             }
+        } else if (tab === "learnings") {
+            if(btn1) { btn1.innerText = "Details"; btn1.classList.toggle('active', window.currentView === 'info'); }
+            if(btn2) { btn2.innerText = "Library"; btn2.classList.toggle('active', window.currentView === 'library'); }
+            if(btn3) btn3.style.display = "none";
         } else {
             if(btn1) { btn1.innerText = "Details"; btn1.classList.toggle('active', window.currentView === 'info'); }
             if(btn2) { btn2.innerText = "Gallery"; btn2.classList.toggle('active', window.currentView === 'gallery'); }
             if(btn3) btn3.style.display = "none"; 
         }
     }
-
     render();
 }
 
@@ -62,67 +63,53 @@ function handleTopBtn(num) {
         const langs = { 1: 'telugu', 2: 'kannada', 3: 'sanskrit' };
         window.activeLang = langs[num];
         window.currentView = "info";
+    } else if (window.activeTab === "learnings") {
+        window.currentView = (num === 1) ? "info" : "library";
     } else {
         window.currentView = (num === 1) ? "info" : "gallery";
     }
+    
     switchTab(window.activeTab);
-	// If a Gita chapter is already open, don't reset. Just refresh the content.
-    if (window.activeStotra === 'gita' && window.expandedGitaId !== null) {
-        // Call toggleGita with the current ID to force a refresh with the new language
-        // We pass the same ID; our updated toggleGita (below) will handle the swap
-        refreshGitaContent(window.expandedGitaId);
-    } else {
-        resetExpansions();
-    }
-
-    // 3. Re-render the UI
-    render();
 }
 
 /* ================================================================
    3. CORE RENDERER
-================================================================
-*/
+================================================================ */
 function render() {
     const area = document.getElementById('contentArea');
     if (!area) return;
 
-    area.innerHTML = ""; // Clear current content
+    area.innerHTML = ""; 
 
-    // Priority 1: Sub-Views (Learn in Parts)
     if (window.currentView === "sv-parts") {
         if (typeof renderSVParts === 'function') renderSVParts();
-        else area.innerHTML = `<div class="p-10 text-center text-red-500 italic">Parts renderer not found.</div>`;
         return;
     }
 
-    // Priority 2: Gallery View
     if (window.currentView === "gallery") {
         if (typeof renderGalleryUI === 'function') renderGalleryUI();
-        else area.innerHTML = `<div class="p-10 text-center text-gray-400 italic">Gallery coming soon...</div>`;
         return;
     }
 
-    // Priority 3: Main Tab Views
+    if (window.currentView === "library") {
+        if (typeof renderLibraryUI === 'function') renderLibraryUI();
+        return;
+    }
+
     switch (window.activeTab) {
         case "parayana":  renderParayanaUI(); break;
         case "stotras":   renderStotraUI();   break;
         case "learnings": renderLearningsUI(); break;
+		case "library":   renderLibraryUI();   break; 
         case "events":    renderEventsUI();    break;
         case "contact":   renderContactUI();   break;
         case "bhajana":   renderBhajanaUI();   break;
         case "seva":      renderSevaUI();      break;
         case "about": 
-            area.innerHTML = `
-                <h2 class='text-xl font-bold mb-4 text-orange-800 uppercase'>About</h2>
-                <div class='space-y-2'>
-                    <div class='bg-yellow-50 p-3 rounded-lg border border-yellow-200 font-bold text-orange-900'>
-                        ✦ Nurturing Dharma Through Practice
-                    </div>
-                </div>`;
+            area.innerHTML = `<h2 class='text-xl font-bold mb-4 text-orange-800 uppercase'>About</h2>
+                              <div class='bg-yellow-50 p-3 rounded-lg border border-yellow-200 font-bold text-orange-900'>
+                              ✦ Nurturing Dharma Through Practice</div>`;
             break;
-        default: 
-            area.innerHTML = `<div class="p-10 text-center text-gray-400">Section coming soon...</div>`;
     }
 }
 
@@ -215,7 +202,62 @@ function toggleAudio() {
 }
 
 /* ================================================================
-   6. UI HELPERS
+   FINAL PDF Viewer Logic (GitHub & Mobile App Optimized)
+================================================================ */
+function openPDFViewer(pdfUrl, title) {
+    // 1. Detection Logic
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+        // MOBILE: Pop out of the app to native viewer
+        window.open(pdfUrl, '_blank');
+        return;
+    }
+
+    // DESKTOP: Display inside the window
+    const area = document.getElementById('contentArea');
+    if (!area) return;
+
+    area.innerHTML = `
+        <div class="flex flex-col h-full animate-fade-in bg-white rounded-xl shadow-lg border border-orange-100 overflow-hidden">
+            <div class="flex items-center justify-between p-3 bg-orange-800 text-white z-10 shadow-md">
+                <button onclick="closePDFViewer()" class="flex items-center gap-2 bg-blue-700 hover:bg-blue-600 px-4 py-2 rounded-lg transition-all text-sm font-bold shadow-sm">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>BACK</span>
+                </button>
+                <h3 class="font-bold text-xs uppercase tracking-widest truncate px-4">${title}</h3>
+                <a href="${pdfUrl}" download class="p-2 bg-orange-700 rounded-lg hover:bg-orange-600 transition">
+                    <i class="fa-solid fa-download"></i>
+                </a>
+            </div>
+            
+            <div class="flex-grow bg-gray-200 relative">
+                <iframe 
+                    src="${pdfUrl}#view=FitH" 
+                    class="absolute inset-0 w-full h-full border-none"
+                    style="width: 100%; height: 100%;">
+                </iframe>
+            </div>
+        </div>
+    `;
+    
+    area.scrollTop = 0;
+}
+
+function closePDFViewer() {
+    // Re-trigger the main render to go back to the list
+    if (typeof render === 'function') {
+        render();
+    }
+}
+
+function closePDFViewer() {
+    // Simply return to the current view (Library, Stotra, etc.)
+    render(); 
+}
+
+/* ================================================================
+   7. UI HELPERS
 ================================================================
 */
 function toggleDropdown(id, type) {
