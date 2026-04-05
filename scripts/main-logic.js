@@ -45,10 +45,7 @@ function switchTab(tab) {
                 btn3.innerText = "Sanskrit";
                 btn3.classList.toggle('active', window.activeLang === 'sanskrit');
             }
-        } else if (tab === "learnings") {
-            if(btn1) { btn1.innerText = "Details"; btn1.classList.toggle('active', window.currentView === 'info'); }
-            if(btn2) { btn2.innerText = "Library"; btn2.classList.toggle('active', window.currentView === 'library'); }
-            if(btn3) btn3.style.display = "none";
+
         } else {
             if(btn1) { btn1.innerText = "Details"; btn1.classList.toggle('active', window.currentView === 'info'); }
             if(btn2) { btn2.innerText = "Gallery"; btn2.classList.toggle('active', window.currentView === 'gallery'); }
@@ -63,8 +60,7 @@ function handleTopBtn(num) {
         const langs = { 1: 'telugu', 2: 'kannada', 3: 'sanskrit' };
         window.activeLang = langs[num];
         window.currentView = "info";
-    } else if (window.activeTab === "learnings") {
-        window.currentView = (num === 1) ? "info" : "library";
+
     } else {
         window.currentView = (num === 1) ? "info" : "gallery";
     }
