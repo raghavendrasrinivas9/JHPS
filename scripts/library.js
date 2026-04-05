@@ -221,16 +221,3 @@ function switchLibrarySubTab(tabName) {
     renderLibraryUI();
 }
 
-function toggleDropdown(id, type) {
-    const content = document.getElementById(`content-${type}-${id}`);
-    const icon = document.getElementById(`icon-${type}-${id}`);
-    
-    if (content) {
-        const isOpen = content.classList.contains('open');
-        content.classList.toggle('open');
-        if (icon) {
-            if (!isOpen) icon.classList.add('rotate-90');
-            else icon.classList.remove('rotate-90');
-        }
-    }
-}
