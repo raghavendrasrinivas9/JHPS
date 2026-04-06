@@ -101,11 +101,8 @@ function render() {
         case "contact":   renderContactUI();   break;
         case "bhajana":   renderBhajanaUI();   break;
         case "seva":      renderSevaUI();      break;
-        case "about": 
-            area.innerHTML = `<h2 class='text-xl font-bold mb-4 text-orange-800 uppercase'>About</h2>
-                              <div class='bg-yellow-50 p-3 rounded-lg border border-yellow-200 font-bold text-orange-900'>
-                              ✦ Nurturing Dharma Through Practice</div>`;
-            break;
+        case "about":	renderAboutUI();      break;
+           
     }
 }
 
