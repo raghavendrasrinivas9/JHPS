@@ -2,7 +2,9 @@
 window.galleryData = {
     parayana: [
         { type: "photo", url: "images/Parayana1.jpg", caption: "Group Parayana" },
-		{ type: "photo", url: "images/Parayana2.jpg", caption: "Group Parayana" }
+		{ type: "photo", url: "images/Parayana2.jpg", caption: "Group Parayana" },
+		{ type: "photo", url: "images/Parayana3.jpg", caption: "Group Parayana" },
+		{ type: "photo", url: "images/Parayana4.jpg", caption: "Group Parayana" }
        
     ],
     stotras: [], 
