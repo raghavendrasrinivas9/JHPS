@@ -1,0 +1,238 @@
+/* ================================================================
+   1. HARD-CODED LIBRARY DATA
+================================================================ */
+window.libraryData = {
+    "Bhagavad Gita": {
+        title: "Bhagavad Gita",
+        steps: [
+            { id: 1, name: "Chapter-1", desc: "Arjuna Vishada Yoga - The distress of Arjuna.", audio: "#", 
+                video: "https://www.youtube.com/watch?v=3pkNX_78sAI", pdfSanskrit: "downloads/BG/bg-ch1-sanskrit.pdf",   pdfTelugu: "downloads/BG/bg-ch1-telugu.pdf", pdfKannada: "downloads/BG/bg-ch1-kannada.pdf" },
+			{ id: 2, name: "Chapter-2", desc: "Sankhya Yoga - The Yoga of Knowledge.", audio: "#", 
+                video: "https://www.youtube.com/watch?v=RRUytOK7GJY", pdfSanskrit: "downloads/BG/bg-ch2-sanskrit.pdf",   pdfTelugu: "#", pdfKannada: "#" },
+			{ id: 3, name: "Chapter-3", desc: "Karma Yoga - The Yoga of Action.", audio: "#", 
+                video: "https://www.youtube.com/watch?v=uTcvZIvRbko", pdfSanskrit: "downloads/BG/bg-ch3-sanskrit.pdf",   pdfTelugu: "#", pdfKannada: "#" },
+			{ id: 4, name: "Chapter-4", desc: "Jnana-Karma-Sanyasa Yoga - Knowledge and Disciplined Action.", audio: "#", video: "https://www.youtube.com/watch?v=oC2tVO9FcLo", pdfSanskrit: "downloads/BG/bg-ch4-sanskrit.pdf", pdfTelugu: "#", pdfKannada: "#" },
+			{ id: 5, name: "Chapter-5", desc: "Karma-Sanyasa Yoga - Action with Renunciation.", audio: "#", 
+                video: "https://www.youtube.com/watch?v=pcQ0q--TCNQ", pdfSanskrit: "downloads/BG/bg-ch5-sanskrit.pdf",   pdfTelugu: "#", pdfKannada: "#" },
+			{ id: 6, name: "Chapter-6", desc: "Atma-Samyama Yoga - The Yoga of Self-Control.", audio: "#", 
+                video: "https://www.youtube.com/watch?v=vA3dYxA1-AA", pdfSanskrit: "downloads/BG/bg-ch6-sanskrit.pdf",   pdfTelugu: "#", pdfKannada: "#" },
+			{ id: 7, name: "Chapter-7", desc: "Jnana-Vijnana Yoga - Knowledge of the Ultimate Truth.", audio: "#", 
+                video: "https://www.youtube.com/watch?v=2wuvfRgV-lo", pdfSanskrit: "downloads/BG/bg-ch7-sanskrit.pdf",   pdfTelugu: "#", pdfKannada: "#" },
+			{ id: 8, name: "Chapter-8", desc: "Akshara-Brahma Yoga - The Yoga of the Imperishable Brahman.", audio: "#", video: "https://www.youtube.com/watch?v=_aK-dQvBays", pdfSanskrit: "downloads/BG/bg-ch8-sanskrit.pdf",   pdfTelugu: "#", pdfKannada: "#" },
+			{ id: 9, name: "Chapter-9", desc: "Raja-Vidya-Raja-Guhya Yoga - The Most Confidential Knowledge.", audio: "#", video: "https://www.youtube.com/watch?v=iBzByVKgmnM", pdfSanskrit: "downloads/BG/bg-ch9-sanskrit.pdf",   pdfTelugu: "#", pdfKannada: "#" },
+			{ id: 10, name: "Chapter-10", desc: "Vibhuti Yoga - The Yoga of Divine Glories.", audio: "#", 
+                video: "https://www.youtube.com/watch?v=cXao89Md7UQ", pdfSanskrit: "downloads/BG/bg-ch10-sanskrit.pdf",   pdfTelugu: "#", pdfKannada: "#" },
+			{ id: 11, name: "Chapter-11", desc: "Vishwarupa-Darshana Yoga - The Vision of the Universal Form.", audio: "#", video: "https://www.youtube.com/watch?v=XicmMeeyHwU", pdfSanskrit: "downloads/BG/bg-ch11-sanskrit.pdf", pdfTelugu: "#", pdfKannada: "#" },
+			{ id: 12, name: "Chapter-12", desc: "Bhakti Yoga - The Yoga of Devotion.", audio: "#", 
+                video: "https://www.youtube.com/watch?v=kJ-lrgDYatk", pdfSanskrit: "downloads/BG/bg-ch12-sanskrit.pdf",   pdfTelugu: "#", pdfKannada: "#" },
+			{ id: 13, name: "Chapter-13", desc: "Kshetra-Kshetrajna Vibhaga Yoga - The Field and the Knower of the Field.", audio: "#", video: "https://www.youtube.com/watch?v=nBDtpS31q7c", pdfSanskrit: "downloads/BG/bg-ch13-sanskrit.pdf",   pdfTelugu: "#", pdfKannada: "#" },
+			{ id: 14, name: "Chapter-14", desc: "Gunatraya-Vibhaga Yoga - The Three Modes of Material Nature.", audio: "#", video: "https://www.youtube.com/watch?v=WMfL_rbep-w", pdfSanskrit: "downloads/BG/bg-ch14-sanskrit.pdf",   pdfTelugu: "#", pdfKannada: "#" },
+			{ id: 15, name: "Chapter-15", desc: "Purushottama Yoga - The Yoga of the Supreme Person.", audio: "#", 
+            video: "https://www.youtube.com/watch?v=SM-VPFvNvEU", pdfSanskrit: "downloads/BG/bg-ch15-sanskrit.pdf",   pdfTelugu: "downloads/BG/bg-ch15-telugu.pdf", pdfKannada: "downloads/BG/bg-ch15-kannada.pdf" },
+			{ id: 16, name: "Chapter-16", desc: "Daivasura-Sampad-Vibhaga Yoga - The Divine and Demoniac Natures.", audio: "#", video: "https://www.youtube.com/watch?v=zoc8OseMp1A", pdfSanskrit: "downloads/BG/bg-ch16-sanskrit.pdf",   pdfTelugu: "#", pdfKannada: "#" },
+			{ id: 17, name: "Chapter-17", desc: "Shraddhatraya-Vibhaga Yoga - The Three Divisions of Faith.", audio: "#", video: "https://www.youtube.com/watch?v=3vhc6pFfuMU", pdfSanskrit: "downloads/BG/bg-ch17-sanskrit.pdf",   pdfTelugu: "#", pdfKannada: "#" },
+			{ id: 18, name: "Chapter-18", desc: "Moksha-Sanyasa Yoga - The Yoga of Liberation and Renunciation.", audio: "#", video: "https://www.youtube.com/watch?v=mzuG5L3Tj_U", pdfSanskrit: "downloads/BG/bg-ch18-sanskrit.pdf",   pdfTelugu: "#", pdfKannada: "#" }
+        ]
+    },
+    "Mani Manjari": {
+        title: "Mani Manjari",
+        steps: [
+            { id: 1, name: "Sarga-1", desc: "Historical account of the lineage and background.", audio: "#", video: "https://www.youtube.com/playlist?list=PLmggQwwEs0GilaFcOtPYFo-s063DP6QYg", pdfSanskrit: "downloads/mm-s1-sanskrit.pdf", pdfTelugu: "#", pdfKannada: "downloads/mm-s1-kannada.pdf" },
+			{ id: 2, name: "Sarga-2", desc: "Historical account of the lineage and background.", audio: "#", video: "https://youtube.com/playlist?list=PLmggQwwEs0GgryAaUSVQ22sZcY_VZ-azu&si=-509MatsmAjLUTXX", pdfSanskrit: "downloads/mm-s1-sanskrit.pdf", pdfTelugu: "#", pdfKannada: "downloads/mm-s2-kannada.pdf" },
+			{ id: 3, name: "Sarga-3", desc: "Historical account of the lineage and background.", audio: "#", video: "#", pdfSanskrit: "downloads/mm-s1-sanskrit.pdf", pdfTelugu: "#", pdfKannada: "downloads/mm-s3-kannada.pdf" },
+			{ id: 4, name: "Sarga-4", desc: "Historical account of the lineage and background.", audio: "#", video: "#", pdfSanskrit: "downloads/mm-s1-sanskrit.pdf", pdfTelugu: "#", pdfKannada: "#" }
+           
+        ]
+    },
+    "Sumadhwa Vijaya": {
+        title: "Sumadhwa Vijaya",
+        steps: [
+            { id: 1, name: "Sarga-1", desc: "Glories and life of Sri Madhvacharya.", audio: "#", video: "https://www.youtube.com/watch?v=dYytMs1KKeo", pdfSanskrit: "downloads/smv-full-sanskrit.pdf", pdfTelugu: "downloads/smv-full-telugu.pdf", pdfKannada: "downloads/smv-full-kannada.pdf"},
+			{ id: 2, name: "Sarga-2", desc: "Glories and life of Sri Madhvacharya.", audio: "#", video: "https://www.youtube.com/watch?v=jzNHuoPAeh8", pdfSanskrit: "downloads/smv-full-sanskrit.pdf", pdfTelugu: "downloads/smv-full-telugu.pdf", pdfKannada: "downloads/smv-full-kannada.pdf"},
+			{ id: 3, name: "Sarga-3", desc: "Glories and life of Sri Madhvacharya.", audio: "#", video: "https://www.youtube.com/watch?v=doBgG4t-uLQ", pdfSanskrit: "downloads/smv-full-sanskrit.pdf", pdfTelugu: "downloads/smv-full-telugu.pdf", pdfKannada: "downloads/smv-full-kannada.pdf"},
+			{ id: 4, name: "Sarga-4", desc: "Glories and life of Sri Madhvacharya.", audio: "#", video: "https://www.youtube.com/watch?v=_F00EnNgolQ", pdfSanskrit: "downloads/smv-full-sanskrit.pdf", pdfTelugu: "downloads/smv-full-telugu.pdf", pdfKannada: "downloads/smv-full-kannada.pdf"},
+			{ id: 5, name: "Sarga-5", desc: "Glories and life of Sri Madhvacharya.", audio: "#", video: "https://www.youtube.com/watch?v=BD04WwSTfR8", pdfSanskrit: "downloads/smv-full-sanskrit.pdf", pdfTelugu: "downloads/smv-full-telugu.pdf", pdfKannada: "downloads/smv-full-kannada.pdf"},
+			{ id: 6, name: "Sarga-6", desc: "Glories and life of Sri Madhvacharya.", audio: "#", video: "https://www.youtube.com/watch?v=81DaSkFG0do", pdfSanskrit: "downloads/smv-full-sanskrit.pdf", pdfTelugu: "downloads/smv-full-telugu.pdf", pdfKannada: "downloads/smv-full-kannada.pdf"},
+			{ id: 7, name: "Sarga-7", desc: "Glories and life of Sri Madhvacharya.", audio: "#", video: "https://www.youtube.com/watch?v=MKjKU_7X9lc", pdfSanskrit: "downloads/smv-full-sanskrit.pdf", pdfTelugu: "downloads/smv-full-telugu.pdf", pdfKannada: "downloads/smv-full-kannada.pdf"},
+			{ id: 8, name: "Sarga-8", desc: "Glories and life of Sri Madhvacharya.", audio: "#", video: "https://www.youtube.com/watch?v=iBcTnlBCt0U", pdfSanskrit: "downloads/smv-full-sanskrit.pdf", pdfTelugu: "downloads/smv-full-telugu.pdf", pdfKannada: "downloads/smv-full-kannada.pdf"},
+			{ id: 9, name: "Sarga-9", desc: "Glories and life of Sri Madhvacharya.", audio: "#", video: "https://www.youtube.com/watch?v=pTx4KUKEIcQ", pdfSanskrit: "downloads/smv-full-sanskrit.pdf", pdfTelugu: "downloads/smv-full-telugu.pdf", pdfKannada: "downloads/smv-full-kannada.pdf"},
+			{ id: 10, name: "Sarga-10", desc: "Glories and life of Sri Madhvacharya.", audio: "#", video: "https://www.youtube.com/watch?v=pK9GgnvSWGM", pdfSanskrit: "downloads/smv-full-sanskrit.pdf", pdfTelugu: "downloads/smv-full-telugu.pdf", pdfKannada: "downloads/smv-full-kannada.pdf"},
+			{ id: 11, name: "Sarga-11", desc: "Glories and life of Sri Madhvacharya.", audio: "#", video: "https://www.youtube.com/watch?v=Z2IHjU_aOIc", pdfSanskrit: "downloads/smv-full-sanskrit.pdf", pdfTelugu: "downloads/smv-full-telugu.pdf", pdfKannada: "downloads/smv-full-kannada.pdf"},
+			{ id: 12, name: "Sarga-12", desc: "Glories and life of Sri Madhvacharya.", audio: "#", video: "https://www.youtube.com/watch?v=sTfLc6ApJ2U", pdfSanskrit: "downloads/smv-full-sanskrit.pdf", pdfTelugu: "downloads/smv-full-telugu.pdf", pdfKannada: "downloads/smv-full-kannada.pdf"}
+            
+        ]
+    },
+	"Purushothama Stotram": {
+        title: "Purushothama Stotram",
+        steps: [
+            { id: 1, name: "Purushothama Stotram", desc: "Yama Kruta", audio: "media/purushottamastotram.mp3", video: "https://www.youtube.com/watch?v=ygOIZH2msY0", pdfSanskrit: "downloads/purushottama-stotram-sanskrit.pdf", pdfTelugu: "downloads/purushottama-stotram-telugu.pdf", pdfKannada: "downloads/purushottama-stotram-kannada.pdf" },
+			         
+        ]
+	}
+};
+
+window.activeLibrarySubTab = window.activeLibrarySubTab || "Bhagavad Gita";
+window.librarySearchQuery = "";
+window.libCursorPos = 0;
+
+/* ================================================================
+   2. LIBRARY RENDERER
+================================================================ */
+function renderLibraryUI() {
+    const area = document.getElementById('contentArea');
+    if (!area) return;
+
+    let html = `
+        <div class="mb-6 px-2">
+            <h2 class="text-xl font-bold mb-6 text-orange-800 uppercase tracking-tight flex items-center gap-2">
+                <i class="fa-solid fa-book-open"></i> Sacred Library
+            </h2>
+
+            <div class="relative mb-6">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-orange-300"></i>
+                <input type="text" 
+                       id="librarySearchInput" 
+                       placeholder="Search library..." 
+                       value="${window.librarySearchQuery}"
+                       oninput="handleLibrarySearch(this)"
+                       class="w-full pl-12 pr-4 py-3 rounded-2xl border-2 border-orange-50 focus:border-orange-400 focus:bg-white outline-none transition-all shadow-sm bg-orange-50/30 text-gray-800 text-sm">
+            </div>
+            
+            <div class="flex gap-2 overflow-x-auto pb-4 no-scrollbar border-b border-orange-50 ${window.librarySearchQuery ? 'hidden' : ''}">
+    `;
+
+    Object.keys(window.libraryData).forEach(tab => {
+        const isActive = window.activeLibrarySubTab === tab;
+        html += `
+            <button onclick="switchLibrarySubTab('${tab}')" 
+                    class="sub-tab-btn ${isActive ? 'active' : ''} whitespace-nowrap px-4 py-2 rounded-full border transition-all text-sm font-medium">
+                ${tab}
+            </button>`;
+    });
+
+    html += `</div></div>`;
+
+    let displayItems = [];
+    if (window.librarySearchQuery) {
+        Object.keys(window.libraryData).forEach(catKey => {
+            const cat = window.libraryData[catKey];
+            const filtered = cat.steps.filter(step => 
+                step.name.toLowerCase().includes(window.librarySearchQuery.toLowerCase()) ||
+                step.desc.toLowerCase().includes(window.librarySearchQuery.toLowerCase())
+            );
+            displayItems = displayItems.concat(filtered);
+        });
+    } else {
+        displayItems = window.libraryData[window.activeLibrarySubTab].steps || [];
+    }
+
+    html += `<div class="grid gap-3 px-2">`;
+
+    if (displayItems.length === 0) {
+        html += `<div class="p-12 text-center text-gray-400 italic bg-white rounded-3xl border-2 border-dashed border-orange-50">No items match your search.</div>`;
+    } else {
+        displayItems.forEach(item => {
+            html += `
+                <div class="group relative bg-white border border-orange-100 hover:border-yellow-400 
+                            hover:bg-yellow-50/80 rounded-2xl overflow-hidden shadow-sm 
+                            hover:shadow-md transition-all duration-300 hover:-translate-y-0.5">
+                    
+                    <button onclick="toggleDropdown('${item.id}', 'lib')" 
+                            class="w-full flex justify-between items-center p-4 text-left transition-colors">
+                        
+                        <div class="flex items-center gap-4">
+                            <div class="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center border border-orange-100 
+                                        group-hover:bg-yellow-100 group-hover:border-yellow-300 transition-colors">
+                                 <i class="fa-solid fa-dharmachakra text-[10px] text-orange-400 group-hover:text-yellow-700"></i>
+                            </div>
+                            
+                            <div class="flex flex-col">
+                                <span class="font-bold text-gray-800 group-hover:text-yellow-900 transition-colors">${item.name}</span>
+                                <span class="text-[10px] text-gray-500 italic block mt-0.5">${item.desc}</span>
+                            </div>
+                        </div>
+
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center bg-orange-50 group-hover:bg-yellow-400 transition-all shadow-sm">
+                            <i id="icon-lib-${item.id}" class="fa-solid fa-chevron-right text-[10px] text-orange-400 group-hover:text-white transition-transform duration-300"></i>
+                        </div>
+                    </button>
+                    
+                    <div id="content-lib-${item.id}" class="dropdown-content bg-white">
+                        <div class="p-4 border-t border-orange-50">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                
+                                ${item.audio && item.audio !== '#' ? 
+                                    `<button onclick="playStream('${item.audio}', '${item.name}')" class="flex items-center justify-center gap-2 p-3 bg-blue-50 rounded-xl text-blue-700 hover:bg-blue-100 transition-colors">
+                                        <i class="fa-solid fa-circle-play text-lg"></i>
+                                        <span class="text-xs font-bold uppercase">Listen</span>
+                                    </button>` : 
+                                    `<button class="flex items-center justify-center gap-2 p-3 bg-gray-50 rounded-xl text-gray-400 cursor-not-allowed">
+                                        <i class="fa-solid fa-circle-play text-lg"></i>
+                                        <span class="text-xs font-bold uppercase">Coming Soon</span>
+                                    </button>`
+                                }
+
+                                ${item.video && item.video !== '#' ? 
+                                    `<a href="${item.video}" target="_blank" class="flex items-center justify-center gap-2 p-3 bg-red-50 rounded-xl text-red-700 hover:bg-red-100 transition-colors">
+                                        <i class="fa-brands fa-youtube text-lg"></i>
+                                        <span class="text-xs font-bold uppercase">Watch</span>
+                                    </a>` : 
+                                    `<button class="flex items-center justify-center gap-2 p-3 bg-gray-50 rounded-xl text-gray-400 cursor-not-allowed">
+                                        <i class="fa-brands fa-youtube text-lg"></i>
+                                        <span class="text-xs font-bold uppercase">Coming Soon</span>
+                                    </button>`
+                                }
+
+                                <div class="flex flex-col gap-2 p-3 bg-green-50 rounded-xl">
+                                    <div class="flex items-center justify-center gap-2 text-green-700 mb-1">
+                                        <i class="fa-solid fa-file-pdf text-lg"></i>
+                                        <span class="text-xs font-bold uppercase">Read PDF</span>
+                                    </div>
+                                    <div class="flex justify-center gap-2">
+                                        ${['Sanskrit', 'Telugu', 'Kannada'].map(lang => {
+                                            const pdfKey = `pdf${lang}`;
+                                            const hasPdf = item[pdfKey] && item[pdfKey] !== '#';
+                                            return `
+                                                <button 
+                                                    ${hasPdf ? `onclick="openPDFViewer('${item[pdfKey]}', '${item.name} - ${lang}')"` : ''} 
+                                                    class="text-[10px] px-2 py-1 rounded border font-bold transition-colors ${hasPdf 
+                                                        ? 'bg-white border-green-200 text-green-800 hover:bg-green-100' 
+                                                        : 'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed'}">
+                                                    ${lang}
+                                                </button>`;
+                                        }).join('')}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+    html += `</div><div class="h-40 w-full"></div>`;
+    area.innerHTML = html;
+
+    const input = document.getElementById('librarySearchInput');
+    if (input && window.librarySearchQuery !== "") {
+        input.focus();
+        input.setSelectionRange(window.libCursorPos, window.libCursorPos);
+    }
+}
+
+/* ================================================================
+   3. HELPERS
+================================================================ */
+function handleLibrarySearch(inputElement) {
+    window.librarySearchQuery = inputElement.value;
+    window.libCursorPos = inputElement.selectionStart;
+    renderLibraryUI();
+}
+
+function switchLibrarySubTab(tabName) {
+    window.activeLibrarySubTab = tabName;
+    window.librarySearchQuery = ""; 
+    renderLibraryUI();
+}
+
